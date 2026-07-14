@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThriveLink Billing Engine — Prototype</title>
+<style>
+  :root{
+    --navy:#1B1F6B; --coral:#E8748A; --coral-d:#C2455F; --coral-lt:#FBEDF1;
+    --peri:#8DA4D4; --peri-lt:#EEF2FA;
+    --blue:#1B1F6B; --blue-lt:#EEF2FA; --green:#15803D; --green-lt:#EAF6EE;
+    --red:#B91C1C; --red-lt:#FDEDED; --amber:#B45309; --amber-lt:#FEF6E7;
+    --ink:#1F2937; --mut:#6B7280; --line:#E5E7EB; --bg:#FFFFFF; --card:#FFFFFF;
+    --serif:Georgia,'Times New Roman',serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
+  header{background:#fff;color:var(--navy);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-bottom:2px solid var(--peri)}
+  header h1{font-size:19px;font-weight:700;font-family:var(--serif);color:var(--navy)}
+  header .sub{font-size:12px;color:var(--mut)}
+  .wordmark{font-family:var(--serif);font-weight:700;font-size:21px;color:var(--navy);white-space:nowrap}
+  .wordmark b{color:var(--coral);font-weight:700}
+  .eyebrow{display:block;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--coral-d);margin-bottom:2px}
+  nav{display:flex;gap:2px;background:#fff;border-bottom:1px solid var(--line);padding:0 16px;overflow-x:auto}
+  nav button{border:none;background:none;padding:12px 16px;font-size:13.5px;font-weight:500;color:var(--mut);cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap}
+  nav button.on{color:var(--navy);border-bottom-color:var(--coral)}
+  main{max-width:1120px;margin:0 auto;padding:20px 16px 60px}
+  .card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--peri);border-radius:10px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(27,31,107,.06)}
+  .card h2{font-size:16px;margin-bottom:10px;font-family:var(--serif);color:var(--navy)}
+  .card h3{font-size:13.5px;margin:12px 0 6px;color:var(--navy)}
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut);text-align:left;padding:7px 8px;border-bottom:1.5px solid var(--line);white-space:nowrap}
+  td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .chip{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:600;white-space:nowrap}
+  .c-ok{background:var(--green-lt);color:var(--green)} .c-bad{background:var(--red-lt);color:var(--red)}
+  .c-warn{background:var(--amber-lt);color:var(--amber)} .c-info{background:var(--blue-lt);color:var(--blue)}
+  .c-mut{background:#EEF0F3;color:var(--mut)}
+  .btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:7px 13px;font-size:13px;font-weight:500;cursor:pointer;color:var(--ink)}
+  .btn:hover{border-color:#c9cdd4}
+  .btn.pri{background:var(--blue);border-color:var(--blue);color:#fff}
+  .btn.grn{background:var(--green);border-color:var(--green);color:#fff}
+  .btn.sm{padding:4px 9px;font-size:12px}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  select,input{border:1px solid var(--line);border-radius:7px;padding:7px 9px;font-size:13px;background:#fff;color:var(--ink)}
+  input[type=number]{width:80px} input[type=date]{width:140px}
+  label{font-size:11.5px;color:var(--mut);display:block;margin-bottom:3px;font-weight:600}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+  .kpi{text-align:left}
+  .kpi .v{font-size:24px;font-weight:700;margin:2px 0}
+  .kpi .l{font-size:12px;color:var(--mut)}
+  .note{font-size:12.5px;color:var(--mut);line-height:1.5}
+  .banner{background:var(--amber-lt);border:1px solid #F3DFB8;border-radius:8px;padding:10px 14px;font-size:12.5px;color:var(--amber);margin-bottom:14px;line-height:1.55}
+  .err{font-size:12px;color:var(--red);line-height:1.4}
+  .bar{height:18px;background:var(--blue);border-radius:4px;min-width:2px}
+  .barrow{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;margin-bottom:8px;font-size:13px}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+  .icd-pop{position:relative}
+  .icd-list{position:absolute;z-index:10;background:#fff;border:1px solid var(--line);border-radius:8px;max-height:180px;overflow:auto;width:320px;box-shadow:0 6px 20px rgba(0,0,0,.1)}
+  .icd-list div{padding:7px 10px;cursor:pointer;font-size:12.5px}
+  .icd-list div:hover{background:var(--blue-lt)}
+  .invoice{border:1px solid var(--line);border-radius:8px;padding:22px;max-width:640px;background:#fff}
+  .invoice h2{font-size:18px} .invoice .meta{font-size:12.5px;color:var(--mut);margin:6px 0 14px}
+  .tag{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--coral-d)}
+  .lockmsg{font-size:12px;color:var(--mut);font-style:italic}
+  /* tooltips */
+  .tt{border-bottom:1px dotted #9aa3af;cursor:help;position:relative}
+  .tt:hover::after{content:attr(data-tip);position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);
+    background:var(--navy);color:#fff;padding:9px 11px;border-radius:8px;font-size:12px;font-weight:400;
+    width:250px;z-index:60;line-height:1.5;white-space:normal;box-shadow:0 5px 16px rgba(0,0,0,.28);pointer-events:none;text-transform:none;letter-spacing:0}
+  .tt:hover::before{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 2px);
+    border:6px solid transparent;border-top-color:var(--navy);z-index:60}
+  th .tt:hover::after, .kpi .tt:hover::after{left:0;transform:none}
+  th .tt:hover::before, .kpi .tt:hover::before{left:14px}
+  /* workflow stepper */
+  .flow{display:flex;align-items:stretch;gap:0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:16px;overflow-x:auto}
+  .fstep{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;cursor:pointer;white-space:nowrap;position:relative}
+  .fstep:hover{background:var(--blue-lt)}
+  .fstep .n{width:22px;height:22px;border-radius:50%;background:#EEF0F3;color:var(--mut);display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;flex:none}
+  .fstep.done .n{background:var(--green);color:#fff}
+  .fstep.now .n{background:var(--coral);color:#fff}
+  .fstep .lb{font-size:12.5px;font-weight:600;color:var(--ink)}
+  .fstep .sb{font-size:10.5px;color:var(--mut);display:block;margin-top:1px;font-weight:400}
+  .farrow{align-self:center;color:#c4cad3;padding:0 2px;flex:none}
+  .fstep:hover::after{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 8px);
+    background:var(--navy);color:#fff;padding:9px 11px;border-radius:8px;font-size:12px;width:260px;z-index:70;line-height:1.5;white-space:normal;box-shadow:0 5px 16px rgba(0,0,0,.28);pointer-events:none}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <span class="eyebrow">Product Prototype</span>
+    <h1>Billing Engine</h1>
+    <span class="sub">Replaces Excel workflows · in-memory demo data (fictional patients) · "today" = July 14, 2026</span>
+  </div>
+  <span class="wordmark">Thrive<b>Link</b></span>
+</header>
+<nav id="nav"></nav>
+<main id="main"></main>
+
+<script>
+/* ================= DATA ================= */
+const TODAY = '2026-07-14';
+const fmt = n => '$' + Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const dISO = s => s ? new Date(s+'T00:00:00') : null;
+const dUS = s => { if(!s) return '—'; const [y,m,d]=s.split('-'); return `${m}/${d}/${y}`; };
+
+const ICD_DB = [
+  ['E11.9','Type 2 diabetes mellitus without complications'],
+  ['E11.65','Type 2 diabetes with hyperglycemia'],
+  ['I10','Essential (primary) hypertension'],
+  ['E78.5','Hyperlipidemia, unspecified'],
+  ['E66.9','Obesity, unspecified'],
+  ['E66.01','Morbid (severe) obesity due to excess calories'],
+  ['N18.3','Chronic kidney disease, stage 3'],
+  ['I50.9','Heart failure, unspecified'],
+  ['K21.9','Gastro-esophageal reflux disease without esophagitis'],
+  ['E44.0','Moderate protein-calorie malnutrition'],
+  ['E44.1','Mild protein-calorie malnutrition'],
+  ['Z59.41','Food insecurity'],
+  ['Z59.6','Low income'],
+  ['E03.9','Hypothyroidism, unspecified'],
+  ['F32.9','Major depressive disorder, single episode, unspecified'],
+];
+
+const state = {
+  tab:'work',
+  orgs:{
+    ATRIUM:{ id:'ATRIUM', name:'Atrium Health Cabarrus', prefix:'ATC',
+      method:'Invoice charged to org (QuickBooks)', cadence:'Per invoice', payer:'Health system (org-pay)',
+      required:['Full name','DOB','ThriveLink ID'],
+      exportType:'invoice',
+      services:[
+        {code:'ATC-GROCERY', name:'Grocery Delivery Bundle', rate:15, unit:'per 4 orders', bundle:4, phase:'Post-enrollment', mod:'', pos:''},
+      ]},
+    CSH:{ id:'CSH', name:'CommonSpirit Health (CSH)', prefix:'CSH',
+      method:'Weekly Engagement & Billing Report', cadence:'Weekly — Fridays', payer:'Health system (org-pay)',
+      required:['Full name','DOB','ThriveLink ID'],
+      exportType:'report',
+      services:[
+        {code:'CSH-ENGAGE', name:'Patient Engagement', rate:10, unit:'per patient', phase:'Post-enrollment', mod:'', pos:''},
+        {code:'CSH-GROCERY', name:'Grocery Delivery', rate:35, unit:'per delivery', phase:'Post-enrollment', mod:'', pos:''},
+        {code:'CSH-VOUCHER', name:'Voucher Redemption', rate:35, unit:'per voucher', phase:'Post-enrollment', mod:'', pos:''},
+      ]},
+    CCHP:{ id:'CCHP', name:'CCHP — Contra Costa Health Plan (Medi-Cal)', prefix:'CCHP',
+      method:'Claims Export → keyed into Epic (CCLink)', cadence:'Biweekly', payer:'Medi-Cal managed care plan',
+      vendor:'Nutrible · Tax ID 88-2673175', posDefault:'12 (Home)',
+      required:['Full name','DOB','CIN','ICD-10 (≥1, up to 3)','Auth # + start/end'],
+      exportType:'epic',
+      services:[
+        {code:'S9977', name:'Grocery Delivery', rate:60, unit:'per week ⚠ confirm unit', phase:'Post-enrollment', mod:'U6', pos:'12'},
+        {code:'S9470', name:'Dietitian (RD) Visit', rate:40, unit:'per visit', phase:'Post-enrollment', mod:'U6', pos:'12'},
+        {code:'G9008', name:'Outreach — Clinical (Pre-Enroll)', rate:null, unit:'per contact', phase:'Pre-enrollment', mod:'U6', pos:'12'},
+        {code:'G9012', name:'Outreach — Non-Clinical (Pre-Enroll)', rate:null, unit:'per contact', phase:'Pre-enrollment', mod:'U6', pos:'12'},
+        {code:'98960', name:'CHW Education Encounter', rate:null, unit:'per encounter', phase:'Post-enrollment', mod:'U6', pos:'12'},
+      ]},
+  },
+  patients:[
+    {id:'P1', org:'CCHP', name:'Maria Lopez', dob:'1961-03-12', phone:'(925) 555-0142',
+     ids:[{t:'CIN',v:'91234567A',auth:'Medi-Cal / CCHP',st:'Verified'},{t:'THRIVELINK_ID',v:'TL-CC-0107',auth:'ThriveLink',st:'Active'},{t:'CCLINK_PATIENT_ID',v:'CCL-88231',auth:'CCHP Epic',st:'Verified'}],
+     insurance:'Active', icd10:['E11.9','I10'], authNo:'A-7741', authStart:'2026-01-15', authEnd:'2026-09-30',
+     lastVerified:'2026-07-01 · HO', dup:false},
+    {id:'P2', org:'CCHP', name:'James Carter', dob:'1954-11-02', phone:'(925) 555-0177',
+     ids:[{t:'CIN',v:'90887421B',auth:'Medi-Cal / CCHP',st:'Verified'},{t:'THRIVELINK_ID',v:'TL-CC-0093',auth:'ThriveLink',st:'Active'}],
+     insurance:'Active', icd10:['E78.5'], authNo:'A-6120', authStart:'2025-12-01', authEnd:'2026-06-30',
+     lastVerified:'2026-05-18 · AR', dup:false},
+    {id:'P3', org:'CCHP', name:'Rosa Nguyen', dob:'1970-07-22', phone:'(925) 555-0119',
+     ids:[{t:'THRIVELINK_ID',v:'TL-CC-0121',auth:'ThriveLink',st:'Active'}],
+     insurance:'Pending', icd10:[], authNo:'', authStart:'', authEnd:'',
+     lastVerified:'—', dup:false},
+    {id:'P4', org:'CCHP', name:'Maria A. Lopez', dob:'1961-03-12', phone:'(925) 555-0142',
+     ids:[{t:'THRIVELINK_ID',v:'TL-CC-0140',auth:'ThriveLink',st:'Active'}],
+     insurance:'Unknown', icd10:[], authNo:'', authStart:'', authEnd:'',
+     lastVerified:'—', dup:true, dupOf:'P1'},
+    {id:'P5', org:'ATRIUM', name:'Denise Waller', dob:'1948-05-30', phone:'(704) 555-0186',
+     ids:[{t:'THRIVELINK_ID',v:'ATCab-0041',auth:'ThriveLink',st:'Active'}],
+     insurance:'Active', icd10:['Z59.41'], authNo:'AT-118', authStart:'2026-03-01', authEnd:'2026-12-31',
+     lastVerified:'2026-06-20 · HO', dup:false},
+    {id:'P6', org:'ATRIUM', name:'Sam Ortiz', dob:'1966-09-14', phone:'(704) 555-0121',
+     ids:[{t:'THRIVELINK_ID',v:'ATCab-0057',auth:'ThriveLink',st:'Active'}],
+     insurance:'Active', icd10:[], authNo:'AT-125', authStart:'2026-05-01', authEnd:'2026-11-30',
+     lastVerified:'2026-07-05 · LT', dup:false},
+    {id:'P7', org:'CSH', name:'Alicia Grant', dob:'1979-01-08', phone:'(617) 555-0163',
+     ids:[{t:'THRIVELINK_ID',v:'TL-CSH-1102',auth:'ThriveLink',st:'Active'}],
+     insurance:'Active', icd10:['E66.9'], authNo:'CS-2210', authStart:'2026-02-10', authEnd:'2026-08-10',
+     lastVerified:'2026-07-08 · MC', dup:false},
+    {id:'P8', org:'CSH', name:'Peter Iyer', dob:'1990-12-19', phone:'(617) 555-0148',
+     ids:[{t:'THRIVELINK_ID',v:'TL-CSH-1130',auth:'ThriveLink',st:'Active'}],
+     insurance:'Active', icd10:[], authNo:'CS-2231', authStart:'2026-06-01', authEnd:'2026-12-01',
+     lastVerified:'2026-07-10 · MC', dup:false},
+  ],
+  items:[
+    {id:1, org:'ATRIUM', pid:'P5', code:'ATC-GROCERY', from:'2026-07-01', to:'2026-07-14', qty:7, status:'draft', claim:null, paid:false},
+    {id:2, org:'ATRIUM', pid:'P6', code:'ATC-GROCERY', from:'2026-07-01', to:'2026-07-14', qty:4, status:'draft', claim:null, paid:false},
+    {id:3, org:'CSH', pid:'P7', code:'CSH-ENGAGE', from:'2026-07-06', to:'2026-07-10', qty:1, status:'draft', claim:null, paid:false},
+    {id:4, org:'CSH', pid:'P7', code:'CSH-GROCERY', from:'2026-07-06', to:'2026-07-10', qty:2, status:'draft', claim:null, paid:false},
+    {id:5, org:'CSH', pid:'P7', code:'CSH-VOUCHER', from:'2026-07-06', to:'2026-07-10', qty:1, status:'draft', claim:null, paid:false},
+    {id:6, org:'CSH', pid:'P8', code:'CSH-ENGAGE', from:'2026-07-06', to:'2026-07-10', qty:1, status:'draft', claim:null, paid:false},
+    {id:7, org:'CCHP', pid:'P1', code:'S9470', from:'2026-07-01', to:'2026-07-14', qty:2, status:'draft', claim:null, paid:false},
+    {id:8, org:'CCHP', pid:'P1', code:'S9977', from:'2026-07-01', to:'2026-07-14', qty:2, status:'draft', claim:null, paid:false},
+    {id:9, org:'CCHP', pid:'P2', code:'S9470', from:'2026-07-08', to:'2026-07-08', qty:1, status:'draft', claim:null, paid:false},
+    {id:10, org:'CCHP', pid:'P3', code:'S9977', from:'2026-07-05', to:'2026-07-12', qty:1, status:'draft', claim:null, paid:false},
+    {id:11, org:'CCHP', pid:'P4', code:'S9470', from:'2026-07-09', to:'2026-07-09', qty:1, status:'draft', claim:null, paid:false},
+  ],
+  nextId:12, addingOrg:false,
+  workOrg:'CCHP', exportOrg:'CCHP', configOrg:'CCHP', patientOrg:'ALL',
+  periodFrom:'2026-07-01', periodTo:'2026-07-14',
+  locked:{},   // orgId -> true after approve & lock
+};
+
+/* ================= CORE LOGIC ================= */
+const P = id => state.patients.find(p=>p.id===id);
+const SVC = (org,code) => state.orgs[org].services.find(s=>s.code===code);
+
+function authStatus(p){
+  if(!p.authNo || !p.authStart || !p.authEnd) return {k:'missing', label:'No auth on file'};
+  if(dISO(p.authEnd) < dISO(TODAY)) return {k:'expired', label:'Auth expired '+dUS(p.authEnd)};
+  const days = Math.round((dISO(p.authEnd)-dISO(TODAY))/86400000);
+  if(days<=30) return {k:'expiring', label:'Auth expires in '+days+'d'};
+  return {k:'active', label:'Auth active thru '+dUS(p.authEnd)};
+}
+
+function calc(item){
+  const svc = SVC(item.org,item.code);
+  if(!svc || svc.rate==null) return {amount:0, detail:'rate not configured', carry:0};
+  if(svc.bundle){
+    const bundles = Math.floor(item.qty/svc.bundle), carry = item.qty % svc.bundle;
+    return {amount:bundles*svc.rate, detail:`${bundles} bundle(s) × ${fmt(svc.rate)}`, carry};
+  }
+  return {amount:item.qty*svc.rate, detail:`${item.qty} × ${fmt(svc.rate)}`, carry:0};
+}
+
+function validate(item){
+  const errs=[]; const p=P(item.pid); const org=state.orgs[item.org]; const svc=SVC(item.org,item.code);
+  if(p.dup) errs.push('Chart-integrity hold: suspected duplicate of '+(P(p.dupOf)?.name||'another chart')+' (same name/DOB/phone). Resolve before billing.');
+  if(svc && svc.rate==null) errs.push('No rate configured for '+item.code+' — set it in Org Configuration.');
+  if(item.org==='CCHP'){
+    if(!p.ids.some(i=>i.t==='CIN')) errs.push('Missing CIN — required for every CCHP claim.');
+    if(!p.icd10.length) errs.push('Missing ICD-10 diagnosis — required on every claim line.');
+    const a=authStatus(p);
+    if(a.k==='missing') errs.push('No authorization on file — service is outside an auth window.');
+    else if(dISO(item.from)<dISO(p.authStart) || dISO(item.to)>dISO(p.authEnd))
+      errs.push(`Service dates outside auth window (${dUS(p.authStart)}–${dUS(p.authEnd)}) — will not be paid.`);
+  }
+  return errs;
+}
+
+function claimNo(org){ return '#'+state.orgs[org].prefix+(300000+Math.floor(Math.random()*500000)); }
+
+/* ================= TOOLTIP HELPER + WORKFLOW ================= */
+const tt=(txt,tip)=>`<span class="tt" data-tip="${tip}">${txt}</span>`;
+
+const FLOW=[
+ ['Configure org','config','Set up each organization once: its service menu (codes + flat rates + units), billing method, cadence, and which chart fields are mandatory. Everything downstream reads from this — staff never type prices.'],
+ ['Chart ready','patients','Before anything can be billed, the patient chart must pass the minimum-data bar: verified identity, no duplicate flag, IDs on the identifier table, and for CCHP a CIN, at least one ICD-10 code, and an active authorization.'],
+ ['Log services','work','Staff record what happened — a grocery delivery, an RD visit, an engagement — as line items in a billing period. This replaces the Excel trackers. Amounts are calculated automatically from the org menu.'],
+ ['Validate','work','The engine runs the payment rules the payer will apply: service dates inside the auth window, required IDs and diagnoses present, rate configured, no duplicate-chart hold. Anything that would be denied is blocked here, before submission — not discovered after.'],
+ ['Approve & lock','work','A reviewer approves the period. Line items become immutable and each gets a claim number. Locking is what makes the numbers auditable and the analytics trustworthy.'],
+ ['Export / submit','export','The same claims render into whatever shape each payer wants: a QuickBooks invoice for Atrium, the Friday report for CSH, or the Epic-format claims export for CCHP that staff key into CCLink.'],
+ ['Track payment','export','Each exported claim is marked paid when money arrives. Billed-versus-collected per claim closes the reconciliation gap Stacey flagged (spend with no deposits logged).'],
+ ['Analyze','analytics','Because every claim from every org lives in one table with one schema, dashboards are just queries: billed per org for partners, blocked revenue, auth watchlist, and status funnel for internal teams.'],
+];
+function flowStrip(){
+  const stepDone=[
+    Object.values(state.orgs).some(o=>o.services.some(s=>s.rate!=null)),          // configured
+    state.patients.some(p=>!p.dup&&authStatus(p).k==='active'),                    // some charts ready
+    state.items.length>0,                                                          // services logged
+    state.items.some(i=>!validate(i).length),                                      // some pass validation
+    Object.keys(state.locked).length>0,                                            // locked
+    state.items.some(i=>i.status==='exported'),                                    // exported
+    state.items.some(i=>i.paid),                                                   // paid
+    false,
+  ];
+  return `<div class="flow">${FLOW.map(([lb,tab,tip],i)=>
+    `<div class="fstep ${stepDone[i]?'done':''} ${state.tab===tab&&!stepDone[i]?'now':''}" data-tip="${tip}" onclick="go('${tab}')">
+       <span class="n">${stepDone[i]?'✓':i+1}</span><span><span class="lb">${lb}</span></span>
+     </div>${i<FLOW.length-1?'<span class="farrow">→</span>':''}`).join('')}</div>`;
+}
+
+/* ================= NAV / RENDER ================= */
+const TABS=[['patients','Patients'],['config','Org Configuration'],['work','Billing Work Area'],['export','Export & Submit'],['analytics','Analytics']];
+function nav(){
+  document.getElementById('nav').innerHTML = TABS.map(([k,l])=>
+    `<button class="${state.tab===k?'on':''}" onclick="go('${k}')">${l}</button>`).join('');
+}
+function go(t){ state.tab=t; render(); }
+function render(){ nav(); const r={patients:rPatients,config:rConfig,work:rWork,export:rExport,analytics:rAnalytics}[state.tab]; document.getElementById('main').innerHTML=flowStrip()+r(); }
+
+/* ================= PATIENTS ================= */
+function authChip(p){
+  const a=authStatus(p);
+  const cls={active:'c-ok',expiring:'c-warn',expired:'c-bad',missing:'c-bad'}[a.k];
+  return `<span class="chip ${cls}">${a.label}</span>`;
+}
+function rPatients(){
+  const orgs=['ALL',...Object.keys(state.orgs)];
+  const list=state.patients.filter(p=>state.patientOrg==='ALL'||p.org===state.patientOrg);
+  return `
+  <div class="row" style="margin-bottom:14px">
+    <div><label>Filter by org</label><select onchange="state.patientOrg=this.value;render()">
+      ${orgs.map(o=>`<option ${state.patientOrg===o?'selected':''}>${o}</option>`).join('')}</select></div>
+    <span class="note">Auth status is a first-class flag next to every name — one of your "doable today" items.</span>
+  </div>
+  ${list.map(p=>`
+  <div class="card">
+    <div class="row" style="justify-content:space-between;align-items:center">
+      <div>
+        <strong style="font-size:15px">${p.name}</strong>
+        <span class="chip c-info">${state.orgs[p.org].prefix}</span>
+        ${authChip(p)}
+        ${p.dup?tt(`<span class="chip c-bad">⚠ Suspected duplicate</span>`,'Matched an existing chart on name + DOB + phone. Per policy: never auto-merge — staff review required, full audit history kept. All billing is held until resolved, because two charts for one person means the system cannot tell which one already has a paid claim.'):''}
+      </div>
+      ${p.dup?`<button class="btn sm" onclick="resolveDup('${p.id}')">Staff review: resolve duplicate</button>`:''}
+    </div>
+    <div class="grid g3" style="margin-top:10px">
+      <div><span class="tag">${tt('Demographics','Legal name and date of birth are two of the mandatory fields before a chart can be activated or billed. Phone alone is NOT a reliable identifier — caregivers register for minors and phoneless members.')}</span>
+        <div class="note">DOB ${dUS(p.dob)} · ${p.phone}<br>${tt('Insurance','Mandatory chart field: Active, Lapsed, or Pending. A lapsed plan means the payer will deny the claim.')}: ${p.insurance} · ${tt('Last verified','Date + staff initials of the last eligibility check — the audit trail for who confirmed this chart is real and current.')}: ${p.lastVerified}</div></div>
+      <div><span class="tag">${tt('Identifier table','One wallet per chart holding every ID the patient has: CIN (Medi-Cal ID), Epic/CCLink ID, hospital MRN, ThriveLink ID. A uniqueness rule stops the same ID attaching to two charts — the root cause of duplicate-billing errors.')}</span>
+        <table>${p.ids.map(i=>`<tr><td class="mono">${i.t}</td><td class="mono">${i.v}</td><td><span class="chip c-mut">${i.st}</span></td></tr>`).join('')||'<tr><td class="note">No identifiers</td></tr>'}</table>
+        ${p.org==='CCHP'&&!p.ids.some(i=>i.t==='CIN')?'<div class="err">Missing CIN — blocks all CCHP claims.</div>':''}</div>
+      <div><span class="tag">${tt('ICD-10 diagnoses (searchable — no free text)','Standardized diagnosis codes, e.g. E11.9 = type 2 diabetes. They justify medical necessity — required on every CCHP claim line, up to 3 per patient. Searchable dropdown replaces error-prone free text.')}</span>
+        <div style="margin:4px 0">${p.icd10.map(c=>`<span class="chip c-info mono">${c}</span> `).join('')||'<span class="err">None on chart</span>'}</div>
+        ${p.icd10.length<3?`<div class="icd-pop">
+          <input placeholder="Search ICD-10 (e.g. diabetes, E11)" style="width:100%" oninput="icdSearch(this,'${p.id}')">
+          <div class="icd-list" id="icd-${p.id}" style="display:none"></div></div>`
+        :'<div class="note">Max 3 codes per CCHP patient.</div>'}
+        <div class="note" style="margin-top:4px">${tt('Auth','Authorization = the payer pre-approves services for a window (auth number + start/end dates). Any service delivered outside this window is not paid. Today it lives in free-text notes; here it is a structured field with an Active/Expired flag.')}: ${p.authNo?`<span class="mono">${p.authNo}</span> · ${dUS(p.authStart)} → ${dUS(p.authEnd)}`:'none on file'}</div></div>
+    </div>
+  </div>`).join('')}`;
+}
+function icdSearch(inp,pid){
+  const q=inp.value.toLowerCase(); const box=document.getElementById('icd-'+pid);
+  if(q.length<2){box.style.display='none';return}
+  const hits=ICD_DB.filter(([c,d])=>c.toLowerCase().includes(q)||d.toLowerCase().includes(q)).slice(0,8);
+  box.innerHTML=hits.map(([c,d])=>`<div onclick="addIcd('${pid}','${c}')"><b class="mono">${c}</b> — ${d}</div>`).join('')||'<div class="note" style="padding:8px">No match</div>';
+  box.style.display='block';
+}
+function addIcd(pid,code){ const p=P(pid); if(!p.icd10.includes(code)&&p.icd10.length<3)p.icd10.push(code); render(); }
+function resolveDup(pid){
+  const p=P(pid);
+  if(confirm('Staff review: merge "'+p.name+'" into the existing chart for '+(P(p.dupOf)?.name||'primary chart')+'?\n\n(Per policy: never auto-merge; full audit history retained.)')){
+    p.dup=false; p.merged=true; p.name+=' (merged → '+P(p.dupOf).name+')';
+    state.items.filter(i=>i.pid===pid).forEach(i=>i.pid=p.dupOf);
+    render();
+  }
+}
+
+/* ================= ORG CONFIG ================= */
+function rConfig(){
+  if(state.addingOrg) return rNewOrg();
+  const o=state.orgs[state.configOrg];
+  return `
+  <div class="row" style="margin-bottom:14px">
+    <div><label>Organization</label><select onchange="state.configOrg=this.value;render()">
+      ${Object.values(state.orgs).map(x=>`<option value="${x.id}" ${x.id===state.configOrg?'selected':''}>${x.name}</option>`).join('')}</select></div>
+    <button class="btn pri" onclick="state.addingOrg=true;render()">+ Add organization</button>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h2>Profile</h2>
+      <table>
+        <tr><td class="note">${tt('Billing method','How this payer receives its bill: an invoice, a weekly report, or a claims export keyed into their system. Same claims table underneath — different output shape per org.')}</td><td>${o.method}</td></tr>
+        <tr><td class="note">${tt('Cadence','How often billing goes out: Atrium per invoice, CSH every Friday, CCHP biweekly. The engine uses this to propose billing periods.')}</td><td>${o.cadence}</td></tr>
+        <tr><td class="note">${tt('Payer type','Who actually pays: the health system itself (org-pay) or a managed-care plan like Medi-Cal via CCHP. Determines compliance requirements like ICD-10 and auth.')}</td><td>${o.payer}</td></tr>
+        ${o.vendor?`<tr><td class="note">${tt('Bills as','The legal entity and Tax ID entered as Vendor/Provider when claims are keyed into Epic.')}</td><td>${o.vendor}</td></tr>`:''}
+        ${o.posDefault?`<tr><td class="note">${tt('Place of Service','Standard payer code for WHERE the service happened. 12 = the patient home — used for grocery delivery and telehealth RD visits.')}</td><td>${o.posDefault}</td></tr>`:''}
+        <tr><td class="note">${tt('Claim prefix','Every locked claim gets a system-generated number starting with this prefix, e.g. #ATC385615 — the handle for drill-down, payment tracking, and audit.')}</td><td class="mono">${o.prefix}</td></tr>
+      </table>
+      <h3>${tt('Required before a chart can be billed','The minimum-data bar from the implementation guide. If any of these are missing, the engine blocks every claim for this patient at validation.')}</h3>
+      <div>${o.required.map(r=>`<span class="chip c-mut">${r}</span> `).join('')}</div>
+      ${o.id!=='CCHP'?'<div class="note" style="margin-top:6px">⚠ Requirement list for this org is not documented — confirm with Edward before final spec.</div>':''}
+    </div>
+    <div class="card"><h2>Service menu — codes & rates</h2>
+      <table>
+        <tr><th>${tt('Code','The claim/service code the payer recognizes: HCPCS codes like S9977 for CCHP, or internal codes like CSH-GROCERY for org-pay partners.')}</th><th>Service</th><th>${tt('Rate','The flat contracted price. Billing is flat-rate regardless of actual spend — which is why claims can be auto-generated with no manual amount entry.')}</th><th>${tt('Unit','What one billable unit is: per 4 orders (bundle), per patient, per delivery, per visit, per week. The calculation engine multiplies qty by rate according to this unit.')}</th><th>${tt('Phase','Pre-enrollment outreach bills under different codes (G9008 clinical / G9012 non-clinical) than post-enrollment services. Each org menu carries both.')}</th><th>${tt('Mod','Modifier — an extra code appended to the claim. CCHP requires U6, a Medi-Cal-defined modifier, on every line.')}</th><th>${tt('POS','Place of Service per service line. Falls back to the org default when unset. Matters once telehealth (POS 10/02) and in-home (12) services coexist.')}</th></tr>
+        ${o.services.map((s,i)=>`<tr>
+          <td class="mono">${s.code}</td><td>${s.name}</td>
+          <td><input type="number" step="0.01" value="${s.rate??''}" placeholder="TBD" style="width:70px"
+            onchange="setRate('${o.id}',${i},this.value)"></td>
+          <td class="note">${s.unit}</td><td class="note">${s.phase}</td><td class="mono">${s.mod||'—'}</td>
+          <td class="mono">${s.pos||o.posDefault?.split(' ')[0]||'—'}${!s.pos&&o.posDefault?'<span class="note"> (org)</span>':''}</td>
+        </tr>`).join('')}
+      </table>
+      ${o.services.some(s=>s.rate==null)?'<div class="err" style="margin-top:8px">Codes without a rate cannot be billed — G9008 / G9012 / 98960 rates are not documented in any source. Get them from Edward.</div>':''}
+      <div class="note" style="margin-top:8px">Staff never type dollar amounts — every claim pulls its rate from this menu (flat-rate billing).</div>
+    </div>
+  </div>
+  ${o.id==='CCHP'?`<div class="card"><h2>Export template (locked to Epic keying workflow)</h2>
+    <div class="note mono" style="line-height:1.8"># · Patient Name · CIN · Auth # · Start Date · End Date · Dx (ICD-10) · # Dietitian Consults · Consult Total $ · Weeks of Grocery Delivery · Grocery Total $ · Billing Date · Total Billed $</div>
+    <div class="note" style="margin-top:6px">Matches Heber's CCHP_Billing_Claims_Portal_Export template. Staff key each row into Epic: patient by CIN → ICD-10 → dates → POS 12 → service code → U6 → amount.</div></div>`:''}`;
+}
+function setRate(org,i,v){ state.orgs[org].services[i].rate = v===''?null:Number(v); render(); }
+
+/* ---- New org wizard: the 5 questions ---- */
+function svcRowHTML(){ return `<tr>
+  <td><input class="s-code" placeholder="S9470 / ORG-CODE" style="width:120px"></td>
+  <td><input class="s-name" placeholder="Service name" style="width:160px"></td>
+  <td><input class="s-rate" type="number" step="0.01" placeholder="TBD" style="width:70px"></td>
+  <td><select class="s-unit"><option>per visit</option><option>per delivery</option><option>per patient</option><option>per week</option><option>per contact</option><option>per encounter</option><option>per voucher</option><option>per order</option></select></td>
+  <td><input class="s-bundle" type="number" min="2" placeholder="—" style="width:55px"></td>
+  <td><select class="s-phase"><option>Post-enrollment</option><option>Pre-enrollment</option></select></td>
+  <td><input class="s-mod" placeholder="—" style="width:50px"></td>
+  <td><input class="s-pos" placeholder="org default" style="width:80px"></td>
+  <td><button class="btn sm" onclick="this.closest('tr').remove()">✕</button></td></tr>`; }
+function addSvcRow(){ document.getElementById('svc-rows').insertAdjacentHTML('beforeend',svcRowHTML()); }
+
+function rNewOrg(){
+  const REQF=['Full name','DOB','ThriveLink ID','CIN','ICD-10 (≥1, up to 3)','Auth # + start/end','Insurance status','Last verified'];
+  return `
+  <div class="card"><h2>New organization — five questions, then it's live everywhere</h2>
+    <p class="note">This is the test of the engine: onboarding org #4 is a form, not an engineering sprint. Fields marked ⚠ are the ones with no documented answer for existing orgs — get them from the billing SME during onboarding.</p></div>
+
+  <div class="card"><h2>1 · ${tt('Who is this payer and how do we bill them?','Identity and mechanics: who pays, in what format, how often — and how our legal entity appears on their side.')}</h2>
+    <div class="row">
+      <div><label>Organization name *</label><input id="o-name" placeholder="e.g. WC Health" style="width:220px"></div>
+      <div><label>${tt('Claim prefix','Short code used in claim numbers, e.g. ATC → #ATC385615. Must be unique.')} *</label><input id="o-prefix" placeholder="WCH" style="width:70px" maxlength="5"></div>
+      <div><label>Payer type</label><select id="o-payer"><option>Health system (org-pay)</option><option>Medicaid / Medi-Cal managed care plan</option><option>Commercial health plan</option></select></div>
+      <div><label>Billing method</label><select id="o-method"><option>Invoice (QuickBooks)</option><option>Recurring report</option><option>Claims export (external system)</option></select></div>
+      <div><label>Cadence</label><select id="o-cadence"><option>Per invoice</option><option>Weekly — Fridays</option><option>Biweekly</option><option>Monthly</option></select></div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <div><label>Bills as (vendor identity)</label><input id="o-vendor" value="Nutrible · Tax ID 88-2673175" style="width:260px"></div>
+      <div><label>${tt('Default Place of Service','Only needed when claims go into a payer system. 12 = Home.')}</label><input id="o-pos" placeholder="12 (Home) — if applicable" style="width:180px"></div>
+    </div></div>
+
+  <div class="card"><h2>2 · ${tt('What is on the service menu?','Each service: payer-recognized code, flat rate, and the unit the calculator multiplies against. A wrong unit is a wrong bill everywhere.')}</h2>
+    <table><tr><th>Code *</th><th>Service</th><th>Rate $</th><th>Unit</th><th>${tt('Bundle','Fill only for bundle pricing: e.g. 4 = one rate per 4 orders (Atrium model). Leave empty otherwise.')}</th><th>Phase</th><th>Modifier</th><th>${tt('POS','Place of Service override for this line. Leave blank to inherit the org default from section 1.')}</th><th></th></tr>
+      <tbody id="svc-rows">${svcRowHTML()}</tbody></table>
+    <button class="btn sm" style="margin-top:8px" onclick="addSvcRow()">+ Add service</button>
+    <div class="note" style="margin-top:6px">A service without a rate is saved but blocked from billing until the rate is set — never guess a rate. ⚠</div></div>
+
+  <div class="card"><h2>3 · ${tt('What must a chart have before claims are valid?','Drives the validation gates. Documented for CCHP (CIN, ICD-10, auth). For every new org this list must come from the payer contract — do not assume.')} ⚠</h2>
+    <div class="row">${REQF.map(f=>`<label style="font-size:13px;color:var(--ink);display:flex;gap:6px;align-items:center;font-weight:400">
+      <input type="checkbox" class="reqf" value="${f}" ${['Full name','DOB','ThriveLink ID'].includes(f)?'checked':''}>${f}</label>`).join('')}</div></div>
+
+  <div class="card"><h2>4 · ${tt('What shape does the output take?','Derived from the billing method: invoice layout, report columns, or a fixed export template matching the payer keying workflow.')}</h2>
+    <p class="note">Auto-set from billing method: Invoice → invoice document · Recurring report → per-patient service summary · Claims export → claims table (column template mapped with the payer during onboarding ⚠).</p></div>
+
+  <div class="card"><h2>5 · ${tt('Money mechanics','Payment tracking and, for pre-funded programs, the fund tracker: deposits, spend, reload threshold. Closes the reconciliation gap.')}</h2>
+    <div class="row">
+      <div><label>${tt('Pre-funded program budget?','Atrium model: partner deposits funds, spend draws them down. If set, the fund tracker alerts at this remaining-% threshold.')}</label><input id="o-fund" type="number" placeholder="reload alert at % — optional" style="width:200px"></div>
+      <div><label>Payments recorded by</label><input id="o-payrole" placeholder="e.g. Anyelisa (reconciliation owner)" style="width:220px"></div>
+    </div></div>
+
+  <div class="row">
+    <button class="btn grn" onclick="createOrg()">Create organization</button>
+    <button class="btn" onclick="state.addingOrg=false;render()">Cancel</button>
+  </div>`;
+}
+function createOrg(){
+  const name=val('o-name').trim();
+  const prefix=(val('o-prefix').trim()||name.slice(0,3)).toUpperCase();
+  if(!name){ alert('Organization name is required.'); return; }
+  if(state.orgs[prefix]){ alert('Claim prefix "'+prefix+'" is already in use — pick another.'); return; }
+  const rows=[...document.querySelectorAll('#svc-rows tr')];
+  const services=rows.map(r=>{
+    const g=c=>r.querySelector(c);
+    const b=g('.s-bundle').value?Number(g('.s-bundle').value):undefined;
+    return { code:g('.s-code').value.trim(), name:g('.s-name').value.trim()||g('.s-code').value.trim(),
+      rate:g('.s-rate').value===''?null:Number(g('.s-rate').value),
+      unit:b?('per '+b+' orders'):g('.s-unit').value, bundle:b,
+      phase:g('.s-phase').value, mod:g('.s-mod').value.trim(), pos:g('.s-pos').value.trim()||val('o-pos').trim() };
+  }).filter(s=>s.code);
+  if(!services.length){ alert('At least one service with a code is required.'); return; }
+  const required=[...document.querySelectorAll('.reqf:checked')].map(c=>c.value);
+  const exportType={'Invoice (QuickBooks)':'invoice','Recurring report':'report','Claims export (external system)':'epic'}[val('o-method')];
+  state.orgs[prefix]={ id:prefix, name, prefix, method:val('o-method'), cadence:val('o-cadence'),
+    payer:val('o-payer'), vendor:val('o-vendor').trim()||undefined, posDefault:val('o-pos').trim()||undefined,
+    required, exportType, services, newOrg:true };
+  state.addingOrg=false; state.configOrg=prefix; state.workOrg=prefix; render();
+}
+
+/* ================= WORK AREA ================= */
+function rWork(){
+  const o=state.orgs[state.workOrg];
+  const items=state.items.filter(i=>i.org===state.workOrg);
+  const locked=state.locked[state.workOrg];
+  const total=items.reduce((s,i)=>validate(i).length?s:s+calc(i).amount,0);
+  const blocked=items.filter(i=>validate(i).length).length;
+  return `
+  <div class="banner"><b>Rules pending confirmation (engine surfaces them, doesn't guess):</b> Atrium partial bundle (&lt;4 orders) — bill or carry over? · CCHP grocery unit — per week or per delivery? · CCHP $120–160/cycle — hard cap? · CSH "engagement" — exact definition?</div>
+  <div class="row" style="margin-bottom:14px">
+    <div><label>Organization</label><select onchange="state.workOrg=this.value;render()">
+      ${Object.values(state.orgs).map(x=>`<option value="${x.id}" ${x.id===state.workOrg?'selected':''}>${x.name}</option>`).join('')}</select></div>
+    <div><label>Period from</label><input type="date" value="${state.periodFrom}" onchange="state.periodFrom=this.value;render()"></div>
+    <div><label>Period to</label><input type="date" value="${state.periodTo}" onchange="state.periodTo=this.value;render()"></div>
+    <span class="chip c-info">${o.cadence}</span>
+    ${locked?'<span class="chip c-ok">Period locked ✓</span>':''}
+  </div>
+  <div class="grid g4" style="margin-bottom:14px">
+    <div class="card kpi"><div class="l">${tt('Line items','One row = one patient x one service x a date range. The atomic unit of the engine — what Excel rows become.')}</div><div class="v">${items.length}</div></div>
+    <div class="card kpi"><div class="l">${tt('Billable total','Sum of items that pass every validation gate. This is what will actually go out — not what was logged.')}</div><div class="v">${fmt(total)}</div></div>
+    <div class="card kpi"><div class="l">${tt('Blocked by validation','Items the payer would deny: expired auth, missing CIN or ICD-10, duplicate chart, unconfigured rate. Caught before submission instead of denied after.')}</div><div class="v" style="color:${blocked?'var(--red)':'var(--green)'}">${blocked}</div></div>
+    <div class="card kpi"><div class="l">${tt('Status','Draft periods are editable. Approve and lock makes items immutable and assigns claim numbers — the audit boundary.')}</div><div class="v" style="font-size:16px">${locked?'Approved & locked':'Draft'}</div></div>
+  </div>
+  <div class="card">
+    <h2>Line items — ${o.name}</h2>
+    <table>
+      <tr><th>Patient</th><th>${tt('Auth','Active/Expired flag pulled live from the chart. Red here = the payer will not pay for services in these dates.')}</th><th>${tt('Service','The claim code from this org menu. Rate and unit come with it automatically.')}</th><th>${tt('From → To','Service dates. Must fall entirely inside the patient auth window for CCHP — the #1 silent revenue leak today.')}</th><th>${tt('Qty','How many units: visits, deliveries, weeks, or orders depending on the service unit.')}</th><th>${tt('Calculation','Qty x configured rate, or bundle math for Atrium (every 4 orders = one $15 bundle; leftovers carry over pending a rule from Edward).')}</th><th>Amount</th><th>${tt('Validation','All payment rules checked live: auth window, CIN, ICD-10, duplicate hold, rate configured. Blocked items cannot be approved or exported.')}</th><th>${tt('Claim #','Assigned at lock, e.g. #ATC385615. Before lock, a line item is a draft — not yet a claim.')}</th><th></th></tr>
+      ${items.map(i=>{
+        const p=P(i.pid), errs=validate(i), c=calc(i);
+        return `<tr>
+          <td><b>${p.name}</b><br><span class="note mono">${p.ids.find(x=>x.t==='CIN')?.v||p.ids[0]?.v||'—'}</span></td>
+          <td>${authChip(p)}</td>
+          <td class="mono">${i.code}</td>
+          <td class="note">${dUS(i.from)} → ${dUS(i.to)}</td>
+          <td>${i.qty}</td>
+          <td class="note">${c.detail}${c.carry?`<br><span class="err">+${c.carry} order(s) carryover — rule TBD</span>`:''}</td>
+          <td><b>${errs.length?'—':fmt(c.amount)}</b></td>
+          <td>${errs.length?`<span class="chip c-bad">Blocked</span><div class="err">${errs.join('<br>')}</div>`:'<span class="chip c-ok">Passes</span>'}</td>
+          <td class="mono">${i.claim||'—'}</td>
+          <td>${!locked&&i.status==='draft'?`<button class="btn sm" onclick="delItem(${i.id})">✕</button>`:''}</td>
+        </tr>`;}).join('')}
+    </table>
+    ${locked?'<p class="lockmsg" style="margin-top:8px">Period is locked — line items are immutable and claim numbers assigned. This is what makes analytics auditable.</p>':`
+    ${state.patients.filter(p=>p.org===state.workOrg).length===0?`<h3>Add line item</h3><p class="note">No patients enrolled under this org yet — charts enter through referral or self-service intake (with chart-integrity gating), not through the billing engine.</p>`:`
+    <h3>Add line item (staff entry — replaces Excel)</h3>
+    <div class="row">
+      <div><label>Patient</label><select id="ni-p">${state.patients.filter(p=>p.org===state.workOrg).map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></div>
+      <div><label>Service</label><select id="ni-s">${o.services.map(s=>`<option value="${s.code}">${s.code} — ${s.name}</option>`).join('')}</select></div>
+      <div><label>From</label><input type="date" id="ni-f" value="${state.periodFrom}"></div>
+      <div><label>To</label><input type="date" id="ni-t" value="${state.periodTo}"></div>
+      <div><label>Qty</label><input type="number" id="ni-q" value="1" min="1"></div>
+      <button class="btn pri" onclick="addItem()">Add — amount auto-calculated</button>
+    </div>`}
+    <div class="row" style="margin-top:14px">
+      <button class="btn grn" ${blocked||!items.length?'disabled':''} onclick="approveLock()">Approve & lock period → assign claim numbers</button>
+      ${blocked?'<span class="err" style="align-self:center">Resolve all blocked items first (fix chart, or delete line).</span>':''}
+      <button class="btn" onclick="alert('Full build: import rows from Grocery Order Tracker / CSH sheet / portal events (CSV upload).')">Import from tracker (CSV)</button>
+    </div>`}
+  </div>`;
+}
+function addItem(){
+  state.items.push({id:state.nextId++, org:state.workOrg, pid:val('ni-p'), code:val('ni-s'),
+    from:val('ni-f'), to:val('ni-t'), qty:Number(val('ni-q')), status:'draft', claim:null, paid:false});
+  render();
+}
+const val=id=>document.getElementById(id).value;
+function delItem(id){ state.items=state.items.filter(i=>i.id!==id); render(); }
+function approveLock(){
+  state.items.filter(i=>i.org===state.workOrg).forEach(i=>{ i.status='approved'; i.claim=claimNo(i.org); });
+  state.locked[state.workOrg]=true; render();
+}
+
+/* ================= EXPORT ================= */
+function rExport(){
+  const o=state.orgs[state.exportOrg];
+  const items=state.items.filter(i=>i.org===state.exportOrg&&(i.status==='approved'||i.status==='exported'));
+  const sel=`<div class="row" style="margin-bottom:14px">
+    <div><label>Organization</label><select onchange="state.exportOrg=this.value;render()">
+      ${Object.values(state.orgs).map(x=>`<option value="${x.id}" ${x.id===state.exportOrg?'selected':''}>${x.name}</option>`).join('')}</select></div></div>`;
+  if(!items.length) return sel+`<div class="card"><h2>${o.name}</h2><p class="note">Nothing to export — approve &amp; lock the billing period in the Work Area first. Only approved claims can be exported (draft work never leaves the system).</p></div>`;
+  const total=items.reduce((s,i)=>s+calc(i).amount,0);
+  const exported=items.every(i=>i.status==='exported');
+  let body='';
+  if(o.exportType==='invoice'){
+    body=`<div class="invoice">
+      <h2>INVOICE</h2>
+      <div class="meta">From: Nutrible (ThriveLink) · Tax ID 88-2673175<br>Bill to: ${o.name}<br>Period: ${dUS(state.periodFrom)} – ${dUS(state.periodTo)} · Date: ${dUS(TODAY)}</div>
+      <table><tr><th>Patient</th><th>Service</th><th>Detail</th><th>Amount</th></tr>
+      ${items.map(i=>`<tr><td>${P(i.pid).name}</td><td class="mono">${i.code}</td><td class="note">${calc(i).detail}</td><td>${fmt(calc(i).amount)}</td></tr>`).join('')}
+      <tr><td colspan="3" style="text-align:right"><b>Total due</b></td><td><b>${fmt(total)}</b></td></tr></table>
+      <div class="note" style="margin-top:10px">MVP: record manually in QuickBooks · Phase 2: QuickBooks API</div></div>`;
+  } else if(o.exportType==='report'){
+    const byP={}; items.forEach(i=>{ (byP[i.pid]=byP[i.pid]||[]).push(i); });
+    const cols=o.services.filter(s=>items.some(i=>i.code===s.code));
+    body=`<h3>${o.cadence.startsWith('Weekly')?'Weekly Engagement & Billing Report — week ending Friday '+dUS(state.periodTo):'Billing Report — period ending '+dUS(state.periodTo)}</h3>
+      <table><tr><th>Patient</th><th>ThriveLink ID</th>${cols.map(s=>`<th>${s.name}</th>`).join('')}<th>Total</th></tr>
+      ${Object.entries(byP).map(([pid,rows])=>{
+        const g=c=>rows.filter(r=>r.code===c).reduce((s,r)=>s+r.qty,0);
+        const t=rows.reduce((s,r)=>s+calc(r).amount,0);
+        return `<tr><td>${P(pid).name}</td><td class="mono">${P(pid).ids[0].v}</td>${cols.map(s=>`<td>${g(s.code)}</td>`).join('')}<td><b>${fmt(t)}</b></td></tr>`;}).join('')}
+      <tr><td colspan="${cols.length+2}" style="text-align:right"><b>Report total</b></td><td><b>${fmt(total)}</b></td></tr></table>
+      <p class="note" style="margin-top:8px">${o.id==='CSH'?'Replaces the manual Friday report built from CSH Hosp_Engagement_Charge.':'Columns generated from this org’s service menu.'}</p>`;
+  } else if(o.exportType==='epic' && o.id!=='CCHP'){
+    body=`<h3>Claims export — for entry into the payer's system</h3>
+      <table><tr><th>Claim #</th><th>Patient</th><th>ID</th><th>Code</th><th>From</th><th>To</th><th>Qty</th><th>Amount</th></tr>
+      ${items.map(i=>{const p=P(i.pid);return `<tr><td class="mono">${i.claim}</td><td>${p.name}</td><td class="mono">${p.ids[0]?.v||''}</td><td class="mono">${i.code}</td><td>${dUS(i.from)}</td><td>${dUS(i.to)}</td><td>${i.qty}</td><td>${fmt(calc(i).amount)}</td></tr>`;}).join('')}
+      </table>
+      <p class="note" style="margin-top:8px">⚠ Generic layout — the exact column template must be mapped with this payer during onboarding (like the CCHP template was).</p>`;
+  } else {
+    const byP={}; items.forEach(i=>{ (byP[i.pid]=byP[i.pid]||[]).push(i); });
+    body=`<h3>CCHP Billing Claims Export — for manual Epic (CCLink) entry</h3>
+      <div style="overflow-x:auto"><table>
+      <tr><th>#</th><th>Patient</th><th>${tt('CIN','Client Index Number — the Medi-Cal member ID. Staff search Epic by CIN to find the patient. No CIN, no claim.')}</th><th>${tt('Auth #','The authorization number from the referral. Epic entry outside the auth period = no payment.')}</th><th>Start</th><th>End</th><th>${tt('Dx (ICD-10)','Diagnosis codes justifying medical necessity, up to 3. Keyed into Epic as associated diagnosis letters A, B, C.')}</th><th># RD Consults</th><th>Consult $</th><th>${tt('Wks Grocery','Weeks of grocery delivery at $60 per week. Note: the rate table says per service — unit needs confirmation with Edward.')}</th><th>Grocery $</th><th>Billing Date</th><th>Total</th></tr>
+      ${Object.entries(byP).map(([pid,rows],ix)=>{
+        const p=P(pid);
+        const rd=rows.filter(r=>r.code==='S9470').reduce((s,r)=>s+r.qty,0);
+        const rdA=rows.filter(r=>r.code==='S9470').reduce((s,r)=>s+calc(r).amount,0);
+        const gr=rows.filter(r=>r.code==='S9977').reduce((s,r)=>s+r.qty,0);
+        const grA=rows.filter(r=>r.code==='S9977').reduce((s,r)=>s+calc(r).amount,0);
+        return `<tr><td>${ix+1}</td><td>${p.name}</td><td class="mono">${p.ids.find(x=>x.t==='CIN')?.v||''}</td><td class="mono">${p.authNo}</td><td>${dUS(p.authStart)}</td><td>${dUS(p.authEnd)}</td><td class="mono">${p.icd10.join(', ')}</td><td>${rd}</td><td>${fmt(rdA)}</td><td>${gr}</td><td>${fmt(grA)}</td><td>${dUS(TODAY)}</td><td><b>${fmt(rdA+grA)}</b></td></tr>`;}).join('')}
+      </table></div>
+      <p class="note" style="margin-top:8px">Epic keying per row: search CIN → ICD-10 → dates → POS 12 (Home) → service code → modifier U6 → amount → Vendor: Nutrible, Tax ID 88-2673175.</p>`;
+  }
+  return sel+`<div class="card">
+    <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:10px">
+      <h2>${o.name} — ${o.method}</h2>
+      <div class="row">
+        <button class="btn" onclick="downloadCSV('${o.id}')">⬇ Download CSV</button>
+        ${!exported?`<button class="btn pri" onclick="markExported('${o.id}')">Mark exported / submitted</button>`:'<span class="chip c-ok">Exported ✓</span>'}
+      </div>
+    </div>
+    ${body}
+    ${exported?`<h3>Payment tracking</h3><table><tr><th>Claim #</th><th>Patient</th><th>Amount</th><th>Paid?</th></tr>
+      ${items.map(i=>`<tr><td class="mono">${i.claim}</td><td>${P(i.pid).name}</td><td>${fmt(calc(i).amount)}</td>
+      <td>${i.paid?'<span class="chip c-ok">Paid</span>':`<button class="btn sm" onclick="markPaid(${i.id})">Mark paid</button>`}</td></tr>`).join('')}</table>
+      <p class="note">Closes the reconciliation gap: billed vs collected is now visible per claim.</p>`:''}
+  </div>`;
+}
+function markExported(org){ state.items.filter(i=>i.org===org&&i.status==='approved').forEach(i=>i.status='exported'); render(); }
+function markPaid(id){ state.items.find(i=>i.id===id).paid=true; render(); }
+function downloadCSV(org){
+  const items=state.items.filter(i=>i.org===org&&(i.status==='approved'||i.status==='exported'));
+  let rows=[['Claim','Patient','ID','Code','From','To','Qty','Amount','Status']];
+  items.forEach(i=>{const p=P(i.pid);rows.push([i.claim,p.name,p.ids.find(x=>x.t==='CIN')?.v||p.ids[0]?.v,i.code,i.from,i.to,i.qty,calc(i).amount,i.status]);});
+  const csv=rows.map(r=>r.map(c=>`"${c??''}"`).join(',')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download=org+'_billing_export.csv'; a.click();
+}
+
+/* ================= ANALYTICS ================= */
+function rAnalytics(){
+  const all=state.items;
+  const billable=i=>!validate(i).length;
+  const amt=i=>calc(i).amount;
+  const tot=all.filter(billable).reduce((s,i)=>s+amt(i),0);
+  const paid=all.filter(i=>i.paid).reduce((s,i)=>s+amt(i),0);
+  const exported=all.filter(i=>i.status==='exported').reduce((s,i)=>s+amt(i),0);
+  const blockedItems=all.filter(i=>validate(i).length);
+  const blockedVal=blockedItems.reduce((s,i)=>{const sv=SVC(i.org,i.code);return s+(sv&&sv.rate?i.qty*sv.rate:0);},0);
+  const reasons={};
+  blockedItems.forEach(i=>validate(i).forEach(e=>{
+    const k=e.includes('duplicate')?'Duplicate chart hold':e.includes('CIN')?'Missing CIN':e.includes('ICD')?'Missing ICD-10':e.includes('auth')||e.includes('window')?'Auth expired / missing':'Rate not configured';
+    reasons[k]=(reasons[k]||0)+1;}));
+  const orgTotals=Object.keys(state.orgs).map(o=>[o,all.filter(i=>i.org===o&&billable(i)).reduce((s,i)=>s+amt(i),0)]);
+  const max=Math.max(...orgTotals.map(x=>x[1]),1);
+  const watch=state.patients.filter(p=>['expired','expiring','missing'].includes(authStatus(p).k)&&!p.merged);
+  return `
+  <div class="grid g4" style="margin-bottom:14px">
+    <div class="card kpi"><div class="l">${tt('Billable (validated)','Everything across all orgs that passes validation — the true revenue pipeline, not inflated by items that would be denied.')}</div><div class="v">${fmt(tot)}</div></div>
+    <div class="card kpi"><div class="l">${tt('Exported / submitted','Claims that left the building: invoiced to Atrium, reported to CSH, or exported for Epic keying.')}</div><div class="v">${fmt(exported)}</div></div>
+    <div class="card kpi"><div class="l">${tt('Collected (paid)','Money actually received, per claim. Billed minus collected = outstanding — the number Stacey could not see before.')}</div><div class="v" style="color:var(--green)">${fmt(paid)}</div></div>
+    <div class="card kpi"><div class="l">${tt('Revenue at risk (blocked)','Dollar value of items stuck at validation — expired auths, missing CINs, duplicate holds. The cost of dirty charts, made visible.')}</div><div class="v" style="color:var(--red)">${fmt(blockedVal)}</div></div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h2>Billed per organization <span class="note">(external view: partners see their own row, drillable to patient)</span></h2>
+      ${orgTotals.map(([o,v])=>`<div class="barrow"><span>${state.orgs[o].name.split(' (')[0].split(' —')[0]}</span><div><div class="bar" style="width:${(v/max*100).toFixed(0)}%"></div></div><b>${fmt(v)}</b></div>`).join('')}
+      <div class="note">One claims table → this chart is a query, not a spreadsheet exercise.</div></div>
+    <div class="card"><h2>Validation failures <span class="note">(internal view — why money is stuck)</span></h2>
+      <table><tr><th>Reason</th><th>Count</th></tr>
+      ${Object.entries(reasons).map(([k,v])=>`<tr><td>${k}</td><td><b>${v}</b></td></tr>`).join('')||'<tr><td class="note" colspan="2">All items pass ✓</td></tr>'}</table></div>
+    <div class="card"><h2>Auth watchlist</h2>
+      <table><tr><th>Patient</th><th>Org</th><th>Auth</th><th>Status</th></tr>
+      ${watch.map(p=>`<tr><td>${p.name}</td><td class="mono">${state.orgs[p.org].prefix}</td><td class="note">${p.authNo?dUS(p.authStart)+' → '+dUS(p.authEnd):'—'}</td><td>${authChip(p)}</td></tr>`).join('')||'<tr><td class="note" colspan="4">No auths at risk</td></tr>'}</table>
+      <div class="note" style="margin-top:6px">Alerts fire before RDs schedule or groceries ship outside a window.</div></div>
+    <div class="card"><h2>Claim status funnel</h2>
+      <table><tr><th>Status</th><th>Items</th><th>Value</th></tr>
+      ${['draft','approved','exported'].map(st=>{const its=all.filter(i=>i.status===st&&billable(i));return `<tr><td style="text-transform:capitalize">${st}</td><td>${its.length}</td><td>${fmt(its.reduce((s,i)=>s+amt(i),0))}</td></tr>`;}).join('')}
+      <tr><td>Paid</td><td>${all.filter(i=>i.paid).length}</td><td>${fmt(paid)}</td></tr></table></div>
+  </div>`;
+}
+
+render();
+</script>
+</body>
+</html>
