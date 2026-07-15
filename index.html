@@ -10,51 +10,52 @@
     --peri:#8DA4D4; --peri-lt:#EEF2FA;
     --blue:#1B1F6B; --blue-lt:#EEF2FA; --green:#15803D; --green-lt:#EAF6EE;
     --red:#B91C1C; --red-lt:#FDEDED; --amber:#B45309; --amber-lt:#FEF6E7;
-    --ink:#1F2937; --mut:#6B7280; --line:#E5E7EB; --bg:#FFFFFF; --card:#FFFFFF;
+    --ink:#33394A; --mut:#767F8F; --line:#E9EBF0; --bg:#FFFFFF; --card:#FFFFFF;
     --serif:Georgia,'Times New Roman',serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
-  header{background:#fff;color:var(--navy);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-bottom:2px solid var(--peri)}
-  header h1{font-size:19px;font-weight:700;font-family:var(--serif);color:var(--navy)}
-  header .sub{font-size:12px;color:var(--mut)}
-  .wordmark{font-family:var(--serif);font-weight:700;font-size:21px;color:var(--navy);white-space:nowrap}
-  .wordmark b{color:var(--coral);font-weight:700}
-  .eyebrow{display:block;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--coral-d);margin-bottom:2px}
-  nav{display:flex;gap:2px;background:#fff;border-bottom:1px solid var(--line);padding:0 16px;overflow-x:auto}
-  nav button{border:none;background:none;padding:12px 16px;font-size:13.5px;font-weight:500;color:var(--mut);cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6;font-weight:400;-webkit-font-smoothing:antialiased}
+  header{background:#fff;color:var(--navy);padding:22px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+  header h1{font-size:20px;font-weight:600;font-family:var(--serif);color:var(--navy)}
+  header .sub{font-size:12.5px;color:var(--mut);display:block;margin-top:4px}
+  .wordmark{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--navy);white-space:nowrap}
+  .wordmark b{color:var(--coral);font-weight:600}
+  nav{display:flex;gap:4px;background:#fff;border-bottom:1px solid var(--line);padding:0 20px;overflow-x:auto}
+  nav button{border:none;background:none;padding:15px 18px;font-size:13.5px;font-weight:500;color:var(--mut);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
   nav button.on{color:var(--navy);border-bottom-color:var(--coral)}
-  main{max-width:1120px;margin:0 auto;padding:20px 16px 60px}
-  .card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--peri);border-radius:10px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(27,31,107,.06)}
-  .card h2{font-size:16px;margin-bottom:10px;font-family:var(--serif);color:var(--navy)}
-  .card h3{font-size:13.5px;margin:12px 0 6px;color:var(--navy)}
-  .grid{display:grid;gap:14px}
+  main{max-width:1160px;margin:0 auto;padding:32px 24px 80px}
+  .card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--peri);border-radius:12px;padding:22px;margin-bottom:20px;box-shadow:0 2px 10px rgba(27,31,107,.05)}
+  .card h2{font-size:16px;margin-bottom:14px;font-family:var(--serif);color:var(--navy);font-weight:600}
+  .card h3{font-size:13.5px;margin:16px 0 8px;color:var(--navy);font-weight:600}
+  .grid{display:grid;gap:18px}
   .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
   .g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
   .g4{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
   table{width:100%;border-collapse:collapse;font-size:13px}
-  th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut);text-align:left;padding:7px 8px;border-bottom:1.5px solid var(--line);white-space:nowrap}
-  td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--mut);text-align:left;padding:10px 12px;border-bottom:1.5px solid var(--line);white-space:nowrap}
+  td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
   tr:last-child td{border-bottom:none}
-  .chip{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:600;white-space:nowrap}
+  .chip{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:500;white-space:nowrap}
   .c-ok{background:var(--green-lt);color:var(--green)} .c-bad{background:var(--red-lt);color:var(--red)}
   .c-warn{background:var(--amber-lt);color:var(--amber)} .c-info{background:var(--blue-lt);color:var(--blue)}
   .c-mut{background:#EEF0F3;color:var(--mut)}
-  .btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:7px 13px;font-size:13px;font-weight:500;cursor:pointer;color:var(--ink)}
+  .btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 15px;font-size:13px;font-weight:500;cursor:pointer;color:var(--ink)}
   .btn:hover{border-color:#c9cdd4}
   .btn.pri{background:var(--blue);border-color:var(--blue);color:#fff}
   .btn.grn{background:var(--green);border-color:var(--green);color:#fff}
-  .btn.sm{padding:4px 9px;font-size:12px}
+  .btn.sm{padding:5px 10px;font-size:12px}
   .btn:disabled{opacity:.45;cursor:not-allowed}
-  select,input{border:1px solid var(--line);border-radius:7px;padding:7px 9px;font-size:13px;background:#fff;color:var(--ink)}
+  select,input{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px;background:#fff;color:var(--ink)}
   input[type=number]{width:80px} input[type=date]{width:140px}
-  label{font-size:11.5px;color:var(--mut);display:block;margin-bottom:3px;font-weight:600}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+  label{font-size:11.5px;color:var(--mut);display:block;margin-bottom:5px;font-weight:500}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
   .kpi{text-align:left}
-  .kpi .v{font-size:24px;font-weight:700;margin:2px 0}
+  .kpi .v{font-size:24px;font-weight:600;margin:4px 0}
   .kpi .l{font-size:12px;color:var(--mut)}
-  .note{font-size:12.5px;color:var(--mut);line-height:1.5}
-  .banner{background:var(--amber-lt);border:1px solid #F3DFB8;border-radius:8px;padding:10px 14px;font-size:12.5px;color:var(--amber);margin-bottom:14px;line-height:1.55}
+  .note{font-size:12.5px;color:var(--mut);line-height:1.6}
+  .banner{background:var(--amber-lt);border:1px solid #F3DFB8;border-radius:10px;padding:14px 18px;font-size:12.5px;color:var(--amber);margin-bottom:20px;line-height:1.6}
+  .callout{background:var(--peri-lt);border:1px solid #D7E0F2;border-radius:10px;padding:14px 18px;font-size:12.5px;color:var(--ink);margin-bottom:20px;line-height:1.6}
+  .callout b{color:var(--navy)}
   .err{font-size:12px;color:var(--red);line-height:1.4}
   .bar{height:18px;background:var(--blue);border-radius:4px;min-width:2px}
   .barrow{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;margin-bottom:8px;font-size:13px}
@@ -63,10 +64,14 @@
   .icd-list{position:absolute;z-index:10;background:#fff;border:1px solid var(--line);border-radius:8px;max-height:180px;overflow:auto;width:320px;box-shadow:0 6px 20px rgba(0,0,0,.1)}
   .icd-list div{padding:7px 10px;cursor:pointer;font-size:12.5px}
   .icd-list div:hover{background:var(--blue-lt)}
-  .invoice{border:1px solid var(--line);border-radius:8px;padding:22px;max-width:640px;background:#fff}
-  .invoice h2{font-size:18px} .invoice .meta{font-size:12.5px;color:var(--mut);margin:6px 0 14px}
-  .tag{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--coral-d)}
+  .invoice{border:1px solid var(--line);border-radius:8px;padding:26px;max-width:640px;background:#fff}
+  .invoice h2{font-size:18px;font-weight:600} .invoice .meta{font-size:12.5px;color:var(--mut);margin:8px 0 16px;line-height:1.6}
+  .tag{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--coral-d)}
   .lockmsg{font-size:12px;color:var(--mut);font-style:italic}
+  .rslv-panel{padding:10px 6px 4px}
+  .rslv-block{margin-bottom:12px;padding-top:10px;border-top:1px dashed var(--line)}
+  .rslv-block:first-child{border-top:none;padding-top:0}
+  .rslv-block b{display:block;margin-bottom:6px;color:var(--navy);font-size:13px}
   /* tooltips */
   .tt{border-bottom:1px dotted #9aa3af;cursor:help;position:relative}
   .tt:hover::after{content:attr(data-tip);position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);
@@ -77,13 +82,13 @@
   th .tt:hover::after, .kpi .tt:hover::after{left:0;transform:none}
   th .tt:hover::before, .kpi .tt:hover::before{left:14px}
   /* workflow stepper */
-  .flow{display:flex;align-items:stretch;gap:0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:16px;overflow-x:auto}
-  .fstep{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;cursor:pointer;white-space:nowrap;position:relative}
+  .flow{display:flex;align-items:stretch;gap:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:20px;overflow-x:auto}
+  .fstep{display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;position:relative}
   .fstep:hover{background:var(--blue-lt)}
-  .fstep .n{width:22px;height:22px;border-radius:50%;background:#EEF0F3;color:var(--mut);display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;flex:none}
+  .fstep .n{width:22px;height:22px;border-radius:50%;background:#EEF0F3;color:var(--mut);display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;flex:none}
   .fstep.done .n{background:var(--green);color:#fff}
   .fstep.now .n{background:var(--coral);color:#fff}
-  .fstep .lb{font-size:12.5px;font-weight:600;color:var(--ink)}
+  .fstep .lb{font-size:12.5px;font-weight:500;color:var(--ink)}
   .fstep .sb{font-size:10.5px;color:var(--mut);display:block;margin-top:1px;font-weight:400}
   .farrow{align-self:center;color:#c4cad3;padding:0 2px;flex:none}
   .fstep:hover::after{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 8px);
@@ -93,9 +98,8 @@
 <body>
 <header>
   <div>
-    <span class="eyebrow">Product Prototype</span>
     <h1>Billing Engine</h1>
-    <span class="sub">Replaces Excel workflows · in-memory demo data (fictional patients) · "today" = July 14, 2026</span>
+    <span class="sub">In-memory demo data (fictional patients) · "today" = July 14, 2026</span>
   </div>
   <span class="wordmark">Thrive<b>Link</b></span>
 </header>
@@ -108,6 +112,13 @@ const TODAY = '2026-07-14';
 const fmt = n => '$' + Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 const dISO = s => s ? new Date(s+'T00:00:00') : null;
 const dUS = s => { if(!s) return '—'; const [y,m,d]=s.split('-'); return `${m}/${d}/${y}`; };
+
+function chwServices(){ return [
+  {code:'CPT/Z (TBD)', name:'SDOH screening / application assistance', rate:null, unit:'per 30-min unit (time-based)', phase:'Post-enrollment', mod:'', pos:''},
+  {code:'CPT/Z-EN (TBD)', name:'Medicaid enrollment / renewal / redetermination', rate:null, unit:'per 30-min unit (time-based)', phase:'Post-enrollment', mod:'', pos:''},
+  {code:'CPT/Z-FU (TBD)', name:'Care coordination follow-up (6-week cycle)', rate:null, unit:'per 30-min unit (time-based)', phase:'Post-enrollment', mod:'', pos:''},
+  {code:'G-CODE (TBD)', name:'G-code tier — requires provider sign-off', rate:null, unit:'per 30-min unit (time-based)', phase:'Post-enrollment', mod:'', pos:'', signoff:true},
+]; }
 
 const ICD_DB = [
   ['E11.9','Type 2 diabetes mellitus without complications'],
@@ -158,6 +169,17 @@ const state = {
         {code:'G9012', name:'Outreach — Non-Clinical (Pre-Enroll)', rate:null, unit:'per contact', phase:'Pre-enrollment', mod:'U6', pos:'12'},
         {code:'98960', name:'CHW Education Encounter', rate:null, unit:'per encounter', phase:'Post-enrollment', mod:'U6', pos:'12'},
       ]},
+    AAH:{ id:'AAH', name:'Alameda Alliance for Health (CHW — CHCN network)', prefix:'AAH',
+      method:'Direct to health plan — submission path TBD (no clearinghouse used today)', cadence:'TBD', payer:'Medicaid / Medi-Cal managed care plan',
+      vendor:'ThriveLink — credentialed CHW provider organization (credentialing status: unconfirmed)',
+      required:['Full name','DOB','⚠ Plan billing requirements TBD'],
+      exportType:'epic', chw:true,
+      services:chwServices()},
+    BJC:{ id:'BJC', name:'BJC HealthCare (CHW — documentation only)', prefix:'BJC',
+      method:'Exportable work documentation — BJC bills against its own G-codes', cadence:'TBD', payer:'Health system (subscription; ThriveLink does not bill claims)',
+      required:['Full name','DOB','ThriveLink ID'],
+      exportType:'workdoc', chw:true, docOnly:true,
+      services:chwServices()},
   },
   patients:[
     {id:'P1', org:'CCHP', name:'Maria Lopez', dob:'1961-03-12', phone:'(925) 555-0142',
@@ -192,6 +214,14 @@ const state = {
      ids:[{t:'THRIVELINK_ID',v:'TL-CSH-1130',auth:'ThriveLink',st:'Active'}],
      insurance:'Active', icd10:[], authNo:'CS-2231', authStart:'2026-06-01', authEnd:'2026-12-01',
      lastVerified:'2026-07-10 · MC', dup:false},
+    {id:'P9', org:'AAH', name:'Luis Herrera', dob:'1975-04-03', phone:'(510) 555-0134',
+     ids:[{t:'THRIVELINK_ID',v:'TL-AAH-0012',auth:'ThriveLink',st:'Active'}],
+     insurance:'Active', icd10:[], authNo:'', authStart:'', authEnd:'',
+     lastVerified:'2026-07-11 · HO', dup:false},
+    {id:'P10', org:'BJC', name:'Tanya Brooks', dob:'1983-08-27', phone:'(314) 555-0158',
+     ids:[{t:'THRIVELINK_ID',v:'TL-BJC-0031',auth:'ThriveLink',st:'Active'}],
+     insurance:'Active', icd10:[], authNo:'', authStart:'', authEnd:'',
+     lastVerified:'2026-07-12 · MC', dup:false},
   ],
   items:[
     {id:1, org:'ATRIUM', pid:'P5', code:'ATC-GROCERY', from:'2026-07-01', to:'2026-07-14', qty:7, status:'draft', claim:null, paid:false},
@@ -205,11 +235,16 @@ const state = {
     {id:9, org:'CCHP', pid:'P2', code:'S9470', from:'2026-07-08', to:'2026-07-08', qty:1, status:'draft', claim:null, paid:false},
     {id:10, org:'CCHP', pid:'P3', code:'S9977', from:'2026-07-05', to:'2026-07-12', qty:1, status:'draft', claim:null, paid:false},
     {id:11, org:'CCHP', pid:'P4', code:'S9470', from:'2026-07-09', to:'2026-07-09', qty:1, status:'draft', claim:null, paid:false},
+    {id:12, org:'AAH', pid:'P9', code:'CPT/Z (TBD)', from:'2026-07-08', to:'2026-07-08', minutes:55, qty:55/30, status:'draft', claim:null, paid:false},
+    {id:13, org:'AAH', pid:'P9', code:'G-CODE (TBD)', from:'2026-07-10', to:'2026-07-10', minutes:30, qty:1, status:'draft', claim:null, paid:false},
+    {id:14, org:'BJC', pid:'P10', code:'CPT/Z (TBD)', from:'2026-07-06', to:'2026-07-12', minutes:90, qty:3, status:'draft', claim:null, paid:false},
   ],
-  nextId:12, addingOrg:false,
+  nextId:15, addingOrg:false,
   workOrg:'CCHP', exportOrg:'CCHP', configOrg:'CCHP', patientOrg:'ALL',
   periodFrom:'2026-07-01', periodTo:'2026-07-14',
   locked:{},   // orgId -> true after approve & lock
+  resolveOpen:{},   // itemId -> true while its inline resolution panel is expanded
+  timer:{running:false, startedAt:null, elapsedMs:0, _int:null},   // per-session CHW interaction timer — no timer system exists today
 };
 
 /* ================= CORE LOGIC ================= */
@@ -226,6 +261,7 @@ function authStatus(p){
 
 function calc(item){
   const svc = SVC(item.org,item.code);
+  if(state.orgs[item.org].docOnly) return {amount:0, detail:'documentation only — partner bills its own G-codes', carry:0};
   if(!svc || svc.rate==null) return {amount:0, detail:'rate not configured', carry:0};
   if(svc.bundle){
     const bundles = Math.floor(item.qty/svc.bundle), carry = item.qty % svc.bundle;
@@ -234,20 +270,22 @@ function calc(item){
   return {amount:item.qty*svc.rate, detail:`${item.qty} × ${fmt(svc.rate)}`, carry:0};
 }
 
-function validate(item){
+function validateDetailed(item){
   const errs=[]; const p=P(item.pid); const org=state.orgs[item.org]; const svc=SVC(item.org,item.code);
-  if(p.dup) errs.push('Chart-integrity hold: suspected duplicate of '+(P(p.dupOf)?.name||'another chart')+' (same name/DOB/phone). Resolve before billing.');
-  if(svc && svc.rate==null) errs.push('No rate configured for '+item.code+' — set it in Org Configuration.');
+  if(p.dup) errs.push({kind:'dup', msg:'Chart-integrity hold: suspected duplicate of '+(P(p.dupOf)?.name||'another chart')+' (same name/DOB/phone). Resolve before billing.'});
+  if(!org.docOnly && svc && svc.rate==null) errs.push({kind:'rate', msg:'No rate configured for '+item.code+' — rate is not documented in any source; confirm via the plan contract.'});
+  if(svc && svc.signoff && !item.signoff) errs.push({kind:'signoff', msg:'Provider sign-off required — G-code tier bills at a higher rate only with sign-off on record.'});
   if(item.org==='CCHP'){
-    if(!p.ids.some(i=>i.t==='CIN')) errs.push('Missing CIN — required for every CCHP claim.');
-    if(!p.icd10.length) errs.push('Missing ICD-10 diagnosis — required on every claim line.');
+    if(!p.ids.some(i=>i.t==='CIN')) errs.push({kind:'cin', msg:'Missing CIN — required for every CCHP claim.'});
+    if(!p.icd10.length) errs.push({kind:'icd', msg:'Missing ICD-10 diagnosis — required on every claim line.'});
     const a=authStatus(p);
-    if(a.k==='missing') errs.push('No authorization on file — service is outside an auth window.');
+    if(a.k==='missing') errs.push({kind:'auth', msg:'No authorization on file — service is outside an auth window.'});
     else if(dISO(item.from)<dISO(p.authStart) || dISO(item.to)>dISO(p.authEnd))
-      errs.push(`Service dates outside auth window (${dUS(p.authStart)}–${dUS(p.authEnd)}) — will not be paid.`);
+      errs.push({kind:'auth', msg:`Service dates outside auth window (${dUS(p.authStart)}–${dUS(p.authEnd)}) — will not be paid.`});
   }
   return errs;
 }
+function validate(item){ return validateDetailed(item).map(e=>e.msg); }
 
 function claimNo(org){ return '#'+state.orgs[org].prefix+(300000+Math.floor(Math.random()*500000)); }
 
@@ -288,7 +326,10 @@ function nav(){
     `<button class="${state.tab===k?'on':''}" onclick="go('${k}')">${l}</button>`).join('');
 }
 function go(t){ state.tab=t; render(); }
-function render(){ nav(); const r={patients:rPatients,config:rConfig,work:rWork,export:rExport,analytics:rAnalytics}[state.tab]; document.getElementById('main').innerHTML=flowStrip()+r(); }
+function render(){
+  state.items.forEach(i=>{ if(state.resolveOpen[i.id] && !validateDetailed(i).length) delete state.resolveOpen[i.id]; });
+  nav(); const r={patients:rPatients,config:rConfig,work:rWork,export:rExport,analytics:rAnalytics}[state.tab]; document.getElementById('main').innerHTML=flowStrip()+r();
+}
 
 /* ================= PATIENTS ================= */
 function authChip(p){
@@ -372,19 +413,21 @@ function rConfig(){
       <h3>${tt('Required before a chart can be billed','The minimum-data bar from the implementation guide. If any of these are missing, the engine blocks every claim for this patient at validation.')}</h3>
       <div>${o.required.map(r=>`<span class="chip c-mut">${r}</span> `).join('')}</div>
       ${o.id!=='CCHP'?'<div class="note" style="margin-top:6px">⚠ Requirement list for this org is not documented — confirm with Edward before final spec.</div>':''}
+      ${o.id==='AAH'?'<div class="note" style="margin-top:4px">⚠ Credentialing status with this plan is unconfirmed — do not submit claims until credentialing is confirmed.</div>':''}
+      ${o.chw?'<div class="note" style="margin-top:4px">⚠ MA/CEC staff eligibility for CHW billing is not documented — training standards have not been codified. Do not assume any staff role qualifies until confirmed.</div>':''}
     </div>
     <div class="card"><h2>Service menu — codes & rates</h2>
       <table>
         <tr><th>${tt('Code','The claim/service code the payer recognizes: HCPCS codes like S9977 for CCHP, or internal codes like CSH-GROCERY for org-pay partners.')}</th><th>Service</th><th>${tt('Rate','The flat contracted price. Billing is flat-rate regardless of actual spend — which is why claims can be auto-generated with no manual amount entry.')}</th><th>${tt('Unit','What one billable unit is: per 4 orders (bundle), per patient, per delivery, per visit, per week. The calculation engine multiplies qty by rate according to this unit.')}</th><th>${tt('Phase','Pre-enrollment outreach bills under different codes (G9008 clinical / G9012 non-clinical) than post-enrollment services. Each org menu carries both.')}</th><th>${tt('Mod','Modifier — an extra code appended to the claim. CCHP requires U6, a Medi-Cal-defined modifier, on every line.')}</th><th>${tt('POS','Place of Service per service line. Falls back to the org default when unset. Matters once telehealth (POS 10/02) and in-home (12) services coexist.')}</th></tr>
         ${o.services.map((s,i)=>`<tr>
-          <td class="mono">${s.code}</td><td>${s.name}</td>
-          <td><input type="number" step="0.01" value="${s.rate??''}" placeholder="TBD" style="width:70px"
-            onchange="setRate('${o.id}',${i},this.value)"></td>
+          <td class="mono">${s.code}</td><td>${s.name}${s.signoff?' <span class="chip c-warn">Sign-off required</span>':''}</td>
+          <td>${o.docOnly?'<span class="note">N/A — documentation only</span>':`<input type="number" step="0.01" value="${s.rate??''}" placeholder="TBD" style="width:70px"
+            onchange="setRate('${o.id}',${i},this.value)">`}</td>
           <td class="note">${s.unit}</td><td class="note">${s.phase}</td><td class="mono">${s.mod||'—'}</td>
           <td class="mono">${s.pos||o.posDefault?.split(' ')[0]||'—'}${!s.pos&&o.posDefault?'<span class="note"> (org)</span>':''}</td>
         </tr>`).join('')}
       </table>
-      ${o.services.some(s=>s.rate==null)?'<div class="err" style="margin-top:8px">Codes without a rate cannot be billed — G9008 / G9012 / 98960 rates are not documented in any source. Get them from Edward.</div>':''}
+      ${!o.docOnly&&o.services.some(s=>s.rate==null)?`<div class="err" style="margin-top:8px">Codes without a rate cannot be billed — no rate is documented for: ${o.services.filter(s=>s.rate==null).map(s=>s.code).join(', ')}. Confirm the correct value before billing.</div>`:''}
       <div class="note" style="margin-top:8px">Staff never type dollar amounts — every claim pulls its rate from this menu (flat-rate billing).</div>
     </div>
   </div>
@@ -473,15 +516,31 @@ function createOrg(){
   state.addingOrg=false; state.configOrg=prefix; state.workOrg=prefix; render();
 }
 
+/* ---- CHW session timer: no timer system exists today; no rounding rule is applied ---- */
+function timerMs(){ return state.timer.elapsedMs + (state.timer.running ? Date.now()-state.timer.startedAt : 0); }
+function timerText(){ const s=Math.floor(timerMs()/1000); const m=String(Math.floor(s/60)).padStart(2,'0'); const ss=String(s%60).padStart(2,'0'); return `${m}:${ss}`; }
+function timerTick(){
+  const disp=document.getElementById('timer-disp');
+  if(!disp){ if(state.timer._int){ clearInterval(state.timer._int); state.timer._int=null; } return; }
+  disp.textContent=timerText();
+  const min=document.getElementById('ni-min'); if(min) min.value=(timerMs()/60000).toFixed(2);
+  const u=document.getElementById('ni-units'); if(u) u.textContent=(timerMs()/60000/30).toFixed(2);
+}
+function timerStart(){ if(state.timer.running) return; state.timer.running=true; state.timer.startedAt=Date.now(); if(!state.timer._int) state.timer._int=setInterval(timerTick,250); render(); }
+function timerPause(){ if(!state.timer.running) return; state.timer.elapsedMs=timerMs(); state.timer.running=false; render(); }
+function resetTimerState(){ if(state.timer._int){ clearInterval(state.timer._int); state.timer._int=null; } state.timer={running:false,startedAt:null,elapsedMs:0,_int:null}; }
+function timerReset(){ resetTimerState(); render(); }
+
 /* ================= WORK AREA ================= */
 function rWork(){
+  if(state.timer.running && !state.timer._int) state.timer._int=setInterval(timerTick,250);
   const o=state.orgs[state.workOrg];
   const items=state.items.filter(i=>i.org===state.workOrg);
   const locked=state.locked[state.workOrg];
   const total=items.reduce((s,i)=>validate(i).length?s:s+calc(i).amount,0);
   const blocked=items.filter(i=>validate(i).length).length;
   return `
-  <div class="banner"><b>Rules pending confirmation (engine surfaces them, doesn't guess):</b> Atrium partial bundle (&lt;4 orders) — bill or carry over? · CCHP grocery unit — per week or per delivery? · CCHP $120–160/cycle — hard cap? · CSH "engagement" — exact definition?</div>
+  <div class="callout"><b>Rules pending confirmation (engine surfaces them, doesn't guess):</b> Atrium partial bundle (&lt;4 orders) — bill or carry over? · CCHP grocery unit — per week or per delivery? · CCHP $120–160/cycle — hard cap? · CSH "engagement" — exact definition? · <b>CHW:</b> time-based billing, 1 unit = 30 min — CPT/Z code list, rates, rounding rule (55 min = 1 or 2 units?) &amp; submission path all TBD; per-session timer needed (no system today)</div>
   <div class="row" style="margin-bottom:14px">
     <div><label>Organization</label><select onchange="state.workOrg=this.value;render()">
       ${Object.values(state.orgs).map(x=>`<option value="${x.id}" ${x.id===state.workOrg?'selected':''}>${x.name}</option>`).join('')}</select></div>
@@ -501,19 +560,21 @@ function rWork(){
     <table>
       <tr><th>Patient</th><th>${tt('Auth','Active/Expired flag pulled live from the chart. Red here = the payer will not pay for services in these dates.')}</th><th>${tt('Service','The claim code from this org menu. Rate and unit come with it automatically.')}</th><th>${tt('From → To','Service dates. Must fall entirely inside the patient auth window for CCHP — the #1 silent revenue leak today.')}</th><th>${tt('Qty','How many units: visits, deliveries, weeks, or orders depending on the service unit.')}</th><th>${tt('Calculation','Qty x configured rate, or bundle math for Atrium (every 4 orders = one $15 bundle; leftovers carry over pending a rule from Edward).')}</th><th>Amount</th><th>${tt('Validation','All payment rules checked live: auth window, CIN, ICD-10, duplicate hold, rate configured. Blocked items cannot be approved or exported.')}</th><th>${tt('Claim #','Assigned at lock, e.g. #ATC385615. Before lock, a line item is a draft — not yet a claim.')}</th><th></th></tr>
       ${items.map(i=>{
-        const p=P(i.pid), errs=validate(i), c=calc(i);
+        const p=P(i.pid), ed=validateDetailed(i), errs=ed.map(e=>e.msg), c=calc(i);
+        const editable=!locked&&i.status==='draft';
+        const open=editable&&errs.length>0&&!!state.resolveOpen[i.id];
         return `<tr>
           <td><b>${p.name}</b><br><span class="note mono">${p.ids.find(x=>x.t==='CIN')?.v||p.ids[0]?.v||'—'}</span></td>
           <td>${authChip(p)}</td>
           <td class="mono">${i.code}</td>
           <td class="note">${dUS(i.from)} → ${dUS(i.to)}</td>
-          <td>${i.qty}</td>
-          <td class="note">${c.detail}${c.carry?`<br><span class="err">+${c.carry} order(s) carryover — rule TBD</span>`:''}</td>
+          <td>${o.chw?`${tt(Number(i.minutes).toFixed(1)+' min','Raw minutes recorded by the session timer.')}<br><span class="note">→ ${Number(i.qty).toFixed(2)} units</span>`:i.qty}</td>
+          <td class="note">${c.detail}${c.carry?`<br><span class="err">+${c.carry} order(s) carryover — rule TBD</span>`:''}${o.chw?'<br><span class="err">Rounding rule for partial 30-min units is not documented — shown unrounded.</span>':''}</td>
           <td><b>${errs.length?'—':fmt(c.amount)}</b></td>
           <td>${errs.length?`<span class="chip c-bad">Blocked</span><div class="err">${errs.join('<br>')}</div>`:'<span class="chip c-ok">Passes</span>'}</td>
           <td class="mono">${i.claim||'—'}</td>
-          <td>${!locked&&i.status==='draft'?`<button class="btn sm" onclick="delItem(${i.id})">✕</button>`:''}</td>
-        </tr>`;}).join('')}
+          <td>${editable?`${errs.length?`<button class="btn sm" onclick="toggleResolve(${i.id})">${open?'Close':'Resolve'}</button> `:''}<button class="btn sm" onclick="delItem(${i.id})">✕</button>`:''}</td>
+        </tr>${open?`<tr><td colspan="10" style="background:var(--peri-lt)"><div class="rslv-panel">${resolvePanel(i,ed)}</div></td></tr>`:''}`;}).join('')}
     </table>
     ${locked?'<p class="lockmsg" style="margin-top:8px">Period is locked — line items are immutable and claim numbers assigned. This is what makes analytics auditable.</p>':`
     ${state.patients.filter(p=>p.org===state.workOrg).length===0?`<h3>Add line item</h3><p class="note">No patients enrolled under this org yet — charts enter through referral or self-service intake (with chart-integrity gating), not through the billing engine.</p>`:`
@@ -523,7 +584,17 @@ function rWork(){
       <div><label>Service</label><select id="ni-s">${o.services.map(s=>`<option value="${s.code}">${s.code} — ${s.name}</option>`).join('')}</select></div>
       <div><label>From</label><input type="date" id="ni-f" value="${state.periodFrom}"></div>
       <div><label>To</label><input type="date" id="ni-t" value="${state.periodTo}"></div>
-      <div><label>Qty</label><input type="number" id="ni-q" value="1" min="1"></div>
+      ${o.chw?`
+      <div><label>${tt('Session timer','No timer system exists today — this records raw minutes for the interaction. No rounding is applied: the rule for partial 30-min increments (e.g., is 55 min 1 or 2 units?) is not documented.')}</label>
+        <div class="row" style="gap:6px;align-items:center">
+          <span class="mono" id="timer-disp" style="font-size:16px;min-width:46px;display:inline-block">${timerText()}</span>
+          <button class="btn sm" type="button" onclick="timerStart()" ${state.timer.running?'disabled':''}>▶</button>
+          <button class="btn sm" type="button" onclick="timerPause()" ${state.timer.running?'':'disabled'}>⏸</button>
+          <button class="btn sm" type="button" onclick="timerReset()">↺</button>
+        </div></div>
+      <div><label>Minutes</label><input type="number" id="ni-min" step="0.01" min="0" value="${(timerMs()/60000).toFixed(2)}" ${state.timer.running?'readonly':''} style="width:90px"></div>
+      <div><label>${tt('Units (unrounded)','minutes ÷ 30. Shown unrounded — the rounding rule for partial units is not documented.')}</label><span class="note mono" id="ni-units" style="display:inline-block;padding:7px 0">${(timerMs()/60000/30).toFixed(2)}</span></div>
+      `:`<div><label>Qty</label><input type="number" id="ni-q" value="1" min="1"></div>`}
       <button class="btn pri" onclick="addItem()">Add — amount auto-calculated</button>
     </div>`}
     <div class="row" style="margin-top:14px">
@@ -534,8 +605,15 @@ function rWork(){
   </div>`;
 }
 function addItem(){
-  state.items.push({id:state.nextId++, org:state.workOrg, pid:val('ni-p'), code:val('ni-s'),
-    from:val('ni-f'), to:val('ni-t'), qty:Number(val('ni-q')), status:'draft', claim:null, paid:false});
+  const org=state.orgs[state.workOrg];
+  const base={id:state.nextId++, org:state.workOrg, pid:val('ni-p'), code:val('ni-s'), from:val('ni-f'), to:val('ni-t'), status:'draft', claim:null, paid:false};
+  if(org.chw){
+    const minutes=Number(val('ni-min'))||0;
+    state.items.push({...base, minutes, qty:minutes/30});
+    resetTimerState();
+  } else {
+    state.items.push({...base, qty:Number(val('ni-q'))});
+  }
   render();
 }
 const val=id=>document.getElementById(id).value;
@@ -543,6 +621,105 @@ function delItem(id){ state.items=state.items.filter(i=>i.id!==id); render(); }
 function approveLock(){
   state.items.filter(i=>i.org===state.workOrg).forEach(i=>{ i.status='approved'; i.claim=claimNo(i.org); });
   state.locked[state.workOrg]=true; render();
+}
+
+/* ---- Resolve panel: fix blocked line items in place, without discarding work ---- */
+function toggleResolve(id){
+  if(state.resolveOpen[id]) delete state.resolveOpen[id]; else state.resolveOpen[id]=true;
+  render();
+}
+function resolvePanel(item,ed){
+  const p=P(item.pid); const kinds=ed.map(e=>e.kind); let html='';
+  if(kinds.includes('dup')){
+    html+=`<div class="rslv-block"><b>Duplicate chart hold</b>
+      <div class="note" style="margin-bottom:8px">Suspected duplicate of ${P(p.dupOf)?.name||'another chart'} (same name/DOB/phone). Staff review required — never auto-merged.</div>
+      <button class="btn sm" onclick="resolveDup('${p.id}')">Review duplicate</button></div>`;
+  }
+  if(kinds.includes('cin')){
+    html+=`<div class="rslv-block"><b>Missing CIN</b>
+      <div class="row"><input id="cin-${item.id}" placeholder="e.g. 91234567A" style="width:160px">
+      <button class="btn sm" onclick="addCIN(${item.id})">Add CIN</button></div>
+      <div class="note" style="margin-top:4px">Saved as Unverified — still needs an eligibility check.</div></div>`;
+  }
+  if(kinds.includes('icd')){
+    html+=`<div class="rslv-block"><b>Missing ICD-10 diagnosis</b>
+      <div style="margin-bottom:6px">${p.icd10.map(c=>`<span class="chip c-info mono">${c}</span> `).join('')||'<span class="err">None on chart</span>'}</div>
+      ${p.icd10.length<3?`<div class="icd-pop">
+        <input placeholder="Search ICD-10 (e.g. diabetes, E11)" style="width:280px" oninput="icdSearchWork(this,'${p.id}',${item.id})">
+        <div class="icd-list" id="icd-work-${item.id}" style="display:none"></div></div>`
+      :'<div class="note">Max 3 codes per CCHP patient.</div>'}</div>`;
+  }
+  if(kinds.includes('auth')){
+    html+=`<div class="rslv-block"><b>Authorization issue</b>
+      <div class="note" style="margin-bottom:8px">Current auth: ${p.authNo?`<span class="mono">${p.authNo}</span> · ${dUS(p.authStart)} → ${dUS(p.authEnd)}`:'none on file'} · Service dates: ${dUS(item.from)} → ${dUS(item.to)}</div>
+      <div class="grid g2">
+        <div><h3 style="margin-top:0">Update authorization</h3>
+          <div class="row">
+            <div><label>Auth #</label><input id="auth-no-${item.id}" value="${p.authNo||''}" style="width:100px"></div>
+            <div><label>Start</label><input type="date" id="auth-start-${item.id}" value="${p.authStart||''}"></div>
+            <div><label>End</label><input type="date" id="auth-end-${item.id}" value="${p.authEnd||''}"></div>
+            <button class="btn sm" onclick="updateAuth(${item.id})">Save authorization</button>
+          </div></div>
+        <div><h3 style="margin-top:0">Adjust service dates</h3>
+          <div class="row">
+            <div><label>From</label><input type="date" id="svc-from-${item.id}" value="${item.from}"></div>
+            <div><label>To</label><input type="date" id="svc-to-${item.id}" value="${item.to}"></div>
+            <button class="btn sm" onclick="updateServiceDates(${item.id})">Save dates</button>
+          </div></div>
+      </div></div>`;
+  }
+  if(kinds.includes('rate')){
+    html+=`<div class="rslv-block"><b>Rate not configured</b>
+      <div class="note" style="margin-bottom:8px">No rate is set for ${item.code} — it can't be billed until Org Configuration has a rate.</div>
+      <button class="btn sm" onclick="state.configOrg='${item.org}';go('config')">Go to Org Configuration</button></div>`;
+  }
+  if(kinds.includes('signoff')){
+    html+=`<div class="rslv-block"><b>Provider sign-off required</b>
+      <div class="note" style="margin-bottom:8px">G-code billing requires a provider sign-off and generates a higher reimbursement rate than standard CHW codes. Record who signed off and when.</div>
+      <div class="row">
+        <div><label>Provider name</label><input id="so-name-${item.id}" placeholder="e.g. Dr. …" style="width:180px"></div>
+        <div><label>Date</label><input type="date" id="so-date-${item.id}" value="${TODAY}"></div>
+        <button class="btn sm" onclick="recordSignoff(${item.id})">Record sign-off</button>
+      </div></div>`;
+  }
+  return html;
+}
+function recordSignoff(itemId){
+  const item=state.items.find(x=>x.id===itemId);
+  const name=val('so-name-'+itemId).trim();
+  if(!name){ alert('Provider name is required for a sign-off record.'); return; }
+  item.signoff={by:name, on:val('so-date-'+itemId)};
+  render();
+}
+function addCIN(itemId){
+  const item=state.items.find(x=>x.id===itemId); const p=P(item.pid);
+  const v=val('cin-'+itemId).trim();
+  if(!v||!/^[A-Za-z0-9]+$/.test(v)){ alert('CIN must be non-empty and alphanumeric.'); return; }
+  p.ids.push({t:'CIN', v, auth:'Medi-Cal / CCHP', st:'Unverified'});
+  render();
+}
+function icdSearchWork(inp,pid,itemId){
+  const q=inp.value.toLowerCase(); const box=document.getElementById('icd-work-'+itemId);
+  if(q.length<2){box.style.display='none';return}
+  const hits=ICD_DB.filter(([c,d])=>c.toLowerCase().includes(q)||d.toLowerCase().includes(q)).slice(0,8);
+  box.innerHTML=hits.map(([c,d])=>`<div onclick="addIcdWork('${pid}',${itemId},'${c}')"><b class="mono">${c}</b> — ${d}</div>`).join('')||'<div class="note" style="padding:8px">No match</div>';
+  box.style.display='block';
+}
+function addIcdWork(pid,itemId,code){
+  const p=P(pid); if(!p.icd10.includes(code)&&p.icd10.length<3) p.icd10.push(code);
+  render();
+}
+function updateAuth(itemId){
+  const item=state.items.find(x=>x.id===itemId); const p=P(item.pid);
+  p.authNo=val('auth-no-'+itemId).trim();
+  p.authStart=val('auth-start-'+itemId);
+  p.authEnd=val('auth-end-'+itemId);
+  render();
+}
+function updateServiceDates(itemId){
+  const item=state.items.find(x=>x.id===itemId);
+  item.from=val('svc-from-'+itemId); item.to=val('svc-to-'+itemId);
+  render();
 }
 
 /* ================= EXPORT ================= */
@@ -575,6 +752,12 @@ function rExport(){
         return `<tr><td>${P(pid).name}</td><td class="mono">${P(pid).ids[0].v}</td>${cols.map(s=>`<td>${g(s.code)}</td>`).join('')}<td><b>${fmt(t)}</b></td></tr>`;}).join('')}
       <tr><td colspan="${cols.length+2}" style="text-align:right"><b>Report total</b></td><td><b>${fmt(total)}</b></td></tr></table>
       <p class="note" style="margin-top:8px">${o.id==='CSH'?'Replaces the manual Friday report built from CSH Hosp_Engagement_Charge.':'Columns generated from this org’s service menu.'}</p>`;
+  } else if(o.exportType==='workdoc'){
+    body=`<h3>CHW work documentation export — ${o.name.split(' (')[0]} bills against its own G-codes</h3>
+      <table><tr><th>Record #</th><th>Patient</th><th>ID</th><th>Interaction</th><th>From</th><th>To</th><th>Qty</th></tr>
+      ${items.map(i=>{const p=P(i.pid);return `<tr><td class="mono">${i.claim}</td><td>${p.name}</td><td class="mono">${p.ids[0]?.v||''}</td><td>${SVC(i.org,i.code)?.name||i.code}</td><td>${dUS(i.from)}</td><td>${dUS(i.to)}</td><td>${i.qty}</td></tr>`;}).join('')}
+      </table>
+      <p class="note" style="margin-top:8px">ThriveLink does not bill claims for this partner — the platform provides exportable work documentation so the partner can bill against proper G-codes. ThriveLink revenue here is the subscription, not claims. ⚠ Column format to be confirmed against the partner's G-code documentation requirements.</p>`;
   } else if(o.exportType==='epic' && o.id!=='CCHP'){
     body=`<h3>Claims export — for entry into the payer's system</h3>
       <table><tr><th>Claim #</th><th>Patient</th><th>ID</th><th>Code</th><th>From</th><th>To</th><th>Qty</th><th>Amount</th></tr>
@@ -605,14 +788,23 @@ function rExport(){
       </div>
     </div>
     ${body}
-    ${exported?`<h3>Payment tracking</h3><table><tr><th>Claim #</th><th>Patient</th><th>Amount</th><th>Paid?</th></tr>
+    ${exported&&o.docOnly?`<p class="note">This partner pays subscription, not per-claim — no payment or denial tracking applies to documentation-only records.</p>`:''}
+    ${exported&&!o.docOnly?`<h3>Payment & denial tracking</h3><table><tr><th>Claim #</th><th>Patient</th><th>Amount</th><th>Status</th><th>Action</th><th>${tt('History','Denial history is retained even after a claim is resubmitted or appealed — nothing is deleted, only superseded.')}</th></tr>
       ${items.map(i=>`<tr><td class="mono">${i.claim}</td><td>${P(i.pid).name}</td><td>${fmt(calc(i).amount)}</td>
-      <td>${i.paid?'<span class="chip c-ok">Paid</span>':`<button class="btn sm" onclick="markPaid(${i.id})">Mark paid</button>`}</td></tr>`).join('')}</table>
-      <p class="note">Closes the reconciliation gap: billed vs collected is now visible per claim.</p>`:''}
+      <td>${i.paid?'<span class="chip c-ok">Paid</span>':i.denial?`<span class="chip c-bad">Denied · ${i.denial.code}</span>`:'<span class="chip c-warn">Open</span>'}</td>
+      <td>${i.paid?'—':i.denial?`<button class="btn sm" onclick="resubmit(${i.id})">Resubmit / appeal</button>`:`<button class="btn sm" onclick="markPaid(${i.id})">Mark paid</button> <button class="btn sm" onclick="markDenied(${i.id})">Mark denied</button>`}</td>
+      <td class="note">${(i.history&&i.history.length)?i.history.map(h=>`${h.code} · denied ${dUS(h.on)}, resubmitted`).join('<br>'):'—'}</td></tr>`).join('')}</table>
+      <p class="note">Closes the reconciliation gap: billed vs collected vs denied, per claim. Resubmission keeps the same claim record — full history retained. ⚠ Standard denial-code list and appeal workflow are not yet documented — confirm with billing (appeals currently run on a Wk 2 &amp; 4 cadence per the team tracker).</p>`:''}
   </div>`;
 }
 function markExported(org){ state.items.filter(i=>i.org===org&&i.status==='approved').forEach(i=>i.status='exported'); render(); }
-function markPaid(id){ state.items.find(i=>i.id===id).paid=true; render(); }
+function markPaid(id){ const i=state.items.find(x=>x.id===id); i.paid=true; delete i.denial; render(); }
+function markDenied(id){
+  const code=prompt('Denial code from the remittance (e.g. CO-197 auth absent, CO-16 missing info):');
+  if(!code) return;
+  const i=state.items.find(x=>x.id===id); i.denial={code:code.trim(), on:TODAY}; render();
+}
+function resubmit(id){ const i=state.items.find(x=>x.id===id); (i.history=i.history||[]).push(i.denial); delete i.denial; render(); }
 function downloadCSV(org){
   const items=state.items.filter(i=>i.org===org&&(i.status==='approved'||i.status==='exported'));
   let rows=[['Claim','Patient','ID','Code','From','To','Qty','Amount','Status']];
@@ -633,7 +825,7 @@ function rAnalytics(){
   const blockedVal=blockedItems.reduce((s,i)=>{const sv=SVC(i.org,i.code);return s+(sv&&sv.rate?i.qty*sv.rate:0);},0);
   const reasons={};
   blockedItems.forEach(i=>validate(i).forEach(e=>{
-    const k=e.includes('duplicate')?'Duplicate chart hold':e.includes('CIN')?'Missing CIN':e.includes('ICD')?'Missing ICD-10':e.includes('auth')||e.includes('window')?'Auth expired / missing':'Rate not configured';
+    const k=e.includes('duplicate')?'Duplicate chart hold':e.includes('CIN')?'Missing CIN':e.includes('ICD')?'Missing ICD-10':e.includes('sign-off')?'Provider sign-off required':e.includes('auth')||e.includes('window')?'Auth expired / missing':'Rate not configured';
     reasons[k]=(reasons[k]||0)+1;}));
   const orgTotals=Object.keys(state.orgs).map(o=>[o,all.filter(i=>i.org===o&&billable(i)).reduce((s,i)=>s+amt(i),0)]);
   const max=Math.max(...orgTotals.map(x=>x[1]),1);
@@ -659,6 +851,7 @@ function rAnalytics(){
     <div class="card"><h2>Claim status funnel</h2>
       <table><tr><th>Status</th><th>Items</th><th>Value</th></tr>
       ${['draft','approved','exported'].map(st=>{const its=all.filter(i=>i.status===st&&billable(i));return `<tr><td style="text-transform:capitalize">${st}</td><td>${its.length}</td><td>${fmt(its.reduce((s,i)=>s+amt(i),0))}</td></tr>`;}).join('')}
+      <tr><td>Denied</td><td>${all.filter(i=>i.denial).length}</td><td>${fmt(all.filter(i=>i.denial).reduce((s,i)=>s+amt(i),0))}</td></tr>
       <tr><td>Paid</td><td>${all.filter(i=>i.paid).length}</td><td>${fmt(paid)}</td></tr></table></div>
   </div>`;
 }
